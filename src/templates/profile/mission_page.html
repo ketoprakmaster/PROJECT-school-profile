@@ -1,0 +1,125 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+<section class="p-5 max-w-4xl mx-auto flex flex-col gap-8 min-w-[350px]">
+    <c-heading title="Visi dan Misi Sekolah">
+        <c-slot name="path">
+            <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"/>
+            <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+        </c-slot>
+        <c-slot name="text">
+            Pelajari lebih lanjut tentang tujuan dan nilai-nilai inti yang membentuk pendidikan di sekolah kami
+        </c-slot>
+    </c-heading>
+
+
+
+    <!-- Container -->
+    <!-- Visi Card -->
+    <div class=" rounded-2xl shadow-lg overflow-hidden bg-base-100 w- mx-auto outline outline-base-300">
+        <div class="h-1.5 bg-blue-900"></div>
+        <div class="p-8 flex flex-col gap-6">
+        <!-- Header -->
+        <div class="flex items-center gap-4 relative">
+            <div class="bg-blue-900 rounded-2xl p-3">
+            <!-- Icon placeholder -->
+                <div class="flex-none w-6 h-6 border-2 border-white"></div>
+            </div>
+            <div>
+            <h2 class="text-lg text-base-content font-normal">Visi Sekolah</h2>
+            <p class="text-base text-base-content/50">Pandangan Masa Depan</p>
+            </div>
+        </div>
+
+        <div class="h-px "></div>
+
+        <!-- Visi Statement -->
+        <div class=" rounded-2xl p-6 outline  outline-blue-100/20 bg-primary/5 ">
+            <p class="text-base text-base-content ">
+            "Mewujudkan generasi cerdas, berkarakter, dan berprestasi yang siap menghadapi tantangan masa depan dengan semangat, keyakinan, dan kejayaan"
+            </p>
+        </div>
+
+        <!-- Fokus Utama -->
+        <div class="flex flex-col gap-4">
+            <h3 class="text-base text-base-content font-normal">Fokus Utama:</h3>
+
+            <div class="flex items-start gap-4 bg-blue-900/10 p-3 rounded-lg">
+            <div class="flex-none w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-semibold">1</div>
+            <p class="text-base-content/50">Menjadi lembaga pendidikan terdepan yang menghasilkan generasi berprestasi dan berkarakter unggul</p>
+            </div>
+
+            <div class="flex items-start gap-4 bg-blue-900/10 p-3 rounded-lg">
+            <div class="flex-none w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-semibold">1</div>
+            <p class="text-base-content/50">Menciptakan lingkungan belajar yang inovatif, kreatif, dan menyenangkan</p>
+            </div>
+
+            <div class="flex items-start gap-4 bg-blue-900/10 p-3 rounded-lg">
+            <div class="flex-none w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-semibold">1</div>
+            <p class="text-base-content/50">Membangun komunitas pendidikan yang harmonis antara siswa, guru, dan orang tua</p>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Misi Card -->
+    <div class=" rounded-2xl shadow-lg overflow-hidden bg-base-100 w-full mx-auto outline outline-base-300">
+        <div class="h-1.5 bg-red-600"></div>
+        <div class="p-8 flex flex-col gap-6">
+        <!-- Header -->
+        <div class="flex items-center gap-4 relative">
+            <div class="bg-red-600 rounded-2xl p-3">
+            <!-- Icon placeholder -->
+            <div class="flex-none w-6 h-6 border-2 border-white"></div>
+            </div>
+            <div>
+            <h2 class="text-lg text-base-content font-normal">Misi Sekolah</h2>
+            <p class="text-base text-base-content/50">Langkah Strategis</p>
+            </div>
+        </div>
+
+        <div class="h-px "></div>
+
+        <!-- Misi Intro -->
+        <div class=" rounded-2xl p-6 outline outline-red-100/20 bg-error/5">
+            <p class="text-base text-base-content ">
+            Untuk mewujudkan visi tersebut, kami berkomitmen melaksanakan misi-misi berikut dengan penuh dedikasi dan profesionalisme
+            </p>
+        </div>
+
+        <!-- Misi List -->
+        <div class="flex flex-col gap-3">
+            <!-- Repeatable Misi Item -->
+            <div class="flex items-start gap-4 bg-red-600/10 p-3 rounded-lg">
+            <div class="flex-none w-6 h-6 bg-red-600 rounded-full flex items-center justify-center text-white text-sm font-semibold">1</div>
+            <p class="text-base-content/50">Menyelenggarakan pendidikan berkualitas dengan kurikulum yang adaptif dan berbasis kompetensi</p>
+            </div>
+
+            <div class="flex items-start gap-4 bg-red-600/10 p-3 rounded-lg">
+            <div class="flex-none w-6 h-6 bg-red-600 rounded-full flex items-center justify-center text-white text-sm font-semibold">2</div>
+            <p class="text-base-content/50">Membentuk karakter siswa yang berakhlak mulia, bertanggung jawab, dan peduli terhadap lingkungan</p>
+            </div>
+
+            <div class="flex items-start gap-4 bg-red-600/10 p-3 rounded-lg">
+            <div class="flex-none w-6 h-6 bg-red-600 rounded-full flex items-center justify-center text-white text-sm font-semibold">3</div>
+            <p class="text-base-content/50">Mengembangkan kreativitas dan inovasi melalui pembelajaran yang interaktif dan teknologi modern</p>
+            </div>
+
+            <div class="flex items-start gap-4 bg-red-600/10 p-3 rounded-lg">
+            <div class="flex-none w-6 h-6 bg-red-600 rounded-full flex items-center justify-center text-white text-sm font-semibold">4</div>
+            <p class="text-base-content/50">Memfasilitasi pengembangan bakat dan minat siswa melalui kegiatan ekstrakurikuler yang beragam</p>
+            </div>
+
+            <div class="flex items-start gap-4 bg-red-600/10 p-3 rounded-lg">
+            <div class="flex-none w-6 h-6 bg-red-600 rounded-full flex items-center justify-center text-white text-sm font-semibold">5</div>
+            <p class="text-base-content/50">Membangun kerjasama yang sinergis dengan orang tua dan masyarakat untuk mendukung pendidikan optimal</p>
+            </div>
+            </div>
+        </div>
+
+</section>
+
+
+
+{% endblock %}

@@ -1,0 +1,101 @@
+{% load wagtailimages_tags navigation_tags %}
+
+
+<footer class=" text-base-content/80 bg-base-300 odd:bg-base-200 even:bg-base-300">
+  <div class="container mx-auto max-w-6xl px-6 py-12 text-xs sm:text-sm md:text-base">
+
+    <!-- Main Footer Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+      <!-- About Section -->
+      <div class="mb-5">
+        <div class="flex items-center mb-4 gap-5">
+            {% image settings.global.BrandSettings.logo max-100x100 class=' rounded-full w-15 h-15' %}
+            <h3 class="text-lg font-semibold text-base-content">
+            {{ settings.global.BrandSettings.name }}
+          </h3>
+        </div>
+
+        <p class="text-base-content/60 mb-4">
+          Membangun generasi unggul dengan pendidikan berkualitas.
+        </p>
+
+        <!-- Social Links -->
+        <div class="flex space-x-4 text-base-content/60">
+          {% if settings.global.SocialMediaSettings.facebook %}
+            <a href="{{ settings.global.SocialMediaSettings.facebook }}" aria-label="Facebook"
+               class="hover:text-primary transition-colors">
+                <svg class="w-[30px] h-[30px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M13.135 6H15V3h-1.865a4.147 4.147 0 0 0-4.142 4.142V9H7v3h2v9.938h3V12h2.021l.592-3H12V6.591A.6.6 0 0 1 12.592 6h.543Z" clip-rule="evenodd"/>
+                </svg>
+            </a>
+          {% endif %}
+          {% if settings.global.SocialMediaSettings.twitter %}
+            <a href="{{ settings.global.SocialMediaSettings.twitter }}" aria-label="Twitter"
+               class="hover:text-primary transition-colors">
+                <svg class="w-[30px] h-[30px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M22 5.892a8.178 8.178 0 0 1-2.355.635 4.074 4.074 0 0 0 1.8-2.235 8.343 8.343 0 0 1-2.605.981A4.13 4.13 0 0 0 15.85 4a4.068 4.068 0 0 0-4.1 4.038c0 .31.035.618.105.919A11.705 11.705 0 0 1 3.4 4.734a4.006 4.006 0 0 0 1.268 5.392 4.165 4.165 0 0 1-1.859-.5v.05A4.057 4.057 0 0 0 6.1 13.635a4.192 4.192 0 0 1-1.856.07 4.108 4.108 0 0 0 3.831 2.807A8.36 8.36 0 0 1 2 18.184 11.732 11.732 0 0 0 8.291 20 11.502 11.502 0 0 0 19.964 8.5c0-.177 0-.349-.012-.523A8.143 8.143 0 0 0 22 5.892Z" clip-rule="evenodd"/>
+                </svg>
+            </a>
+          {% endif %}
+          {% if settings.global.SocialMediaSettings.instagram %}
+            <a href="{{ settings.global.SocialMediaSettings.instagram }}" aria-label="Instagram"
+               class="hover:text-primary transition-colors">
+                <svg class="w-[30px] h-[30px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path fill="currentColor" fill-rule="evenodd" d="M3 8a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8Zm5-3a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V8a3 3 0 0 0-3-3H8Zm7.597 2.214a1 1 0 0 1 1-1h.01a1 1 0 1 1 0 2h-.01a1 1 0 0 1-1-1ZM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm-5 3a5 5 0 1 1 10 0 5 5 0 0 1-10 0Z" clip-rule="evenodd"/>
+                </svg>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="mb-5">
+        <h3 class="text-lg font-semibold text-base-content mb-4">Hubungi Kami</h3>
+        <ul class="space-y-2 text-base-content/60">
+          <li class="flex items-start gap-3">
+              <svg class="w-[25px] h-[25px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M7.833 2c-.507 0-.98.216-1.318.576A1.92 1.92 0 0 0 6 3.89V21a1 1 0 0 0 1.625.78L12 18.28l4.375 3.5A1 1 0 0 0 18 21V3.889c0-.481-.178-.954-.515-1.313A1.808 1.808 0 0 0 16.167 2H7.833Z"/>
+              </svg>
+            <span>{{ settings.global.BrandSettings.location }}</span>
+          </li>
+          <li class="flex items-center gap-3">
+              <svg class="w-[25px] h-[25px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M7.978 4a2.553 2.553 0 0 0-1.926.877C4.233 6.7 3.699 8.751 4.153 10.814c.44 1.995 1.778 3.893 3.456 5.572 1.68 1.679 3.577 3.018 5.57 3.459 2.062.456 4.115-.073 5.94-1.885a2.556 2.556 0 0 0 .001-3.861l-1.21-1.21a2.689 2.689 0 0 0-3.802 0l-.617.618a.806.806 0 0 1-1.14 0l-1.854-1.855a.807.807 0 0 1 0-1.14l.618-.62a2.692 2.692 0 0 0 0-3.803l-1.21-1.211A2.555 2.555 0 0 0 7.978 4Z"/>
+              </svg>
+            <span>{{ settings.global.BrandSettings.phone }}</span>
+          </li>
+          <li class="flex items-center gap-3">
+              <svg class="w-[25px] h-[25px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M2.038 5.61A2.01 2.01 0 0 0 2 6v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6c0-.12-.01-.238-.03-.352l-.866.65-7.89 6.032a2 2 0 0 1-2.429 0L2.884 6.288l-.846-.677Z"/>
+                <path d="M20.677 4.117A1.996 1.996 0 0 0 20 4H4c-.225 0-.44.037-.642.105l.758.607L12 10.742 19.9 4.7l.777-.583Z"/>
+              </svg>
+            <span>{{ settings.global.BrandSettings.email }}</span>
+          </li>
+          <li class="flex items-center gap-3">
+              <svg class="w-[25px] h-[25px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
+              </svg>
+            <span>{{ settings.global.BrandSettings.schedule }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h3 class="text-lg font-semibold text-base-content mb-4">Tautan Cepat</h3>
+        <ul class="space-y-2 text-base-content/60">
+          <li><a href="#" class="hover:text-primary transition-colors">Beranda</a></li>
+          <li><a href="#" class="hover:text-primary transition-colors">Kalender Akademik</a></li>
+          <li><a href="#" class="hover:text-primary transition-colors">Pencarian Jadwal Kelas</a></li>
+          <li><a href="#" class="hover:text-primary transition-colors">Visi &amp; Misi</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="mt-12 border-t border-base-content/20 pt-6 text-center text-base-content/50">
+      <p>&copy; {% now "Y" %} {{ settings.global.BrandSettings.copyright }}.</p>
+    </div>
+  </div>
+</footer>

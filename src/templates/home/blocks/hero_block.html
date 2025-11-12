@@ -1,0 +1,29 @@
+{% load wagtailimages_tags wagtailcore_tags %}
+
+<section class="py-20 bg-linear-to-r from-base-200 via-warning/20 to-error/10">
+  <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+    <div class="text-center md:text-left">
+      <h1 class="text-4xl md:text-5xl font-bold text-base-content mb-4">
+        {{ value.hero_title }}
+      </h1>
+      <p class="text-base-content/70 text-lg">
+        {{ value.hero_subtitle }}
+      </p>
+    </div>
+
+    <div class="w-full h-64 md:h-80 bg-base-300 rounded-xl flex items-center justify-center text-base-content/50">
+      {% if value.hero_image %}
+        {% image value.hero_image fill-600x400 as hero_img %}
+        <img
+          src="{{ hero_img.url }}"
+          alt="{{ hero_img.alt }}"
+          class="object-cover w-full h-full rounded-xl"
+        />
+      {% else %}
+        <div class="w-full h-full bg-base-300 rounded-xl flex items-center justify-center">
+          <span class="text-base-content/50">600x400</span>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>

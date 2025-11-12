@@ -1,0 +1,45 @@
+# Node.js specific ignores
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp/
+.pnp.js
+.env*
+
+# Build artifacts
+dist/
+build/
+out/
+
+# Python specific ignores
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python/
+venv/
+.venv/
+pip-log.log
+pip-delete-this-directory.log
+.tox/
+.coverage
+.pytest_cache/
+htmlcov/
+.mypy_cache/
+.vscode/ # VS Code specific files
+.idea/ # IntelliJ/PyCharm specific files
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# django projects
+*.sqlite*
+/src/themes/static/*
+/src/media
+/src/static
+
+# IDE-specific files
+.vscode/
+.idea/

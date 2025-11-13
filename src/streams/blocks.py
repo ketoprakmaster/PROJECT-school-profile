@@ -10,7 +10,7 @@ class HeroBlock(blocks.StructBlock):
     hero_image = ImageChooserBlock(required=False, help_text="Gambar latar belakang atau gambar utama.")
 
     class Meta:
-        template = "home/blocks/hero_block.html"
+        template = "blocks/hero_block.html"
         icon = "home"
         label = "Hero Section"
 
@@ -18,7 +18,7 @@ class HeroBlock(blocks.StructBlock):
 class CardBlock(blocks.StructBlock):
     """A single card with an optional image, title, and description."""
     image = ImageChooserBlock(required=False, help_text="Gambar untuk kartu (opsional).")
-    title = blocks.CharBlock(required=False, max_length=255, help_text="Judul kartu.")
+    title = blocks.CharBlock(required=False, max_length=96, help_text="Judul kartu.")
     description = blocks.TextBlock(required=False, help_text="Deskripsi singkat kartu.")
 
     class Meta:
@@ -28,14 +28,14 @@ class CardBlock(blocks.StructBlock):
 
 class TitledCardSectionBlock(blocks.StructBlock):
     """A section with a title, subtitle, and a list of cards."""
-    title = blocks.CharBlock(required=False, max_length=255, help_text="Judul untuk seksi ini (misal: 'Profil Sekolah').")
+    title = blocks.CharBlock(required=False, max_length=96, help_text="Judul untuk seksi ini (misal: 'Profil Sekolah').")
     subtitle = blocks.TextBlock(required=False, help_text="Subjudul atau deskripsi untuk seksi ini (opsional).")
     cards = blocks.StreamBlock([
         ('card', CardBlock())
     ], use_json_field=True, required=False)
 
     class Meta:
-        template = "home/blocks/titled_card_section_block.html"
+        template = "blocks/titled_card_section_block.html"
         icon = "table"
         label = "Titled Card Section"
 
@@ -46,7 +46,7 @@ class MapsEmbedBlock(blocks.StructBlock):
     element = blocks.RawHTMLBlock(required=False, help_text="Tempat section untuk menaruh peta lokasi")
 
     class Meta:
-        template = "home/blocks/maps_block.html"
+        template = "blocks/maps_block.html"
         label = "Maps Sections"
 
 

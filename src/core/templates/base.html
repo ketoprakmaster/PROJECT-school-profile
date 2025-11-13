@@ -33,19 +33,20 @@
 </head>
 
 <body class="font-sans">
-    {% wagtailuserbar %}
-
-    {% block header %}
-        {% include "common/header.html" %}
+    <!-- Navbar -->
+    {% block navbar %}
+        {% include 'common/header.html' %}
     {% endblock %}
 
-    <main>
-        {% block content %}
-        {% endblock content %}
-    </main>
+    <!-- Page content here -->
+    {% block content %}
+    <div class="text-4xl justify-center mx-auto max-w-6xl font-bold">
+        this is an empty body template
+    </div>
+    {% endblock %}
+
+    <!--Page Footer Here-->
+    {% include 'common/footer.html' %}
 
     {% include 'partials/theme_fab.html' %}
-    {% block footer %}
-        {% include "common/footer.html" %}
-    {% endblock %}
 </body>

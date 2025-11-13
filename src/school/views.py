@@ -6,7 +6,7 @@ def schedule_view(request):
     """
     # Context can be added here in the future
     context = {}
-    return render(request, "administration/schedule_page.html", context)
+    return render(request, "school/schedule_page.html", context)
 
 
 def calendar_view(request):
@@ -15,4 +15,4 @@ def calendar_view(request):
     """
     # Context can be added here in the future
     context = {}
-    return render(request, "administration/calendar_page.html", context)
+    return render(request, "school/calendar_page.html", context)

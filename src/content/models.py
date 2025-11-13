@@ -6,6 +6,7 @@ from wagtail.fields import StreamField, RichTextField
 from wagtail import blocks
 from wagtail.images.blocks import ImageChooserBlock
 
+from streams.blocks import body as bodyBlocks
 
 class StandardPage(Page):
     """
@@ -13,6 +14,7 @@ class StandardPage(Page):
     Perfect for pages like 'About Us', 'Vision & Mission', etc.
     """
     template = "content/standard_page.html"
+    parent_pages_types = ["content.HomePage"]
 
     body = StreamField([
         ('heading', blocks.CharBlock(form_classname="title", icon="title")),
@@ -33,7 +35,8 @@ class ArticleIndexPage(Page):
     Page to list all its children ArticlePages.
     """
     template = "content/article_index_page.html"
-    subpage_types = ['content.ArticlePage'] # Restrict children to be ArticlePage
+    parent_pages_types = ["content.HomePage"]
+    subpage_types = ['content.ArticlePage']
 
     introduction = RichTextField(blank=True)
 
@@ -57,7 +60,7 @@ class ArticlePage(Page):
     A single news article or announcement.
     """
     template = "content/article_page.html"
-    parent_page_types = ['content.ArticleIndexPage'] # Can only be created under an ArticleIndexPage
+    parent_page_types = ['content.ArticleIndexPage']
 
     date = models.DateField("Post date")
     introduction = models.CharField(max_length=250)
@@ -75,3 +78,22 @@ class ArticlePage(Page):
 
     class Meta:
         verbose_name = "Article/News Page"
+
+
+class HomePage(Page):
+    """
+    The main home page model, built using a flexible StreamField
+    for composing different sections.
+    """
+    max_count = 1
+    template = "content/home_page.html"
+
+    body = bodyBlocks
+
+    content_panels = Page.content_panels + [
+        FieldPanel('body'),
+    ]
+
+    class Meta:
+        verbose_name = "Home Page"
+        verbose_name_plural = "Home Pages"

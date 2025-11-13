@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-app_name = "home"
+app_name = "school"
 
 urlpatterns = [
     path("jadwal/", views.schedule_view, name="schedule-page"),

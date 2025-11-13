@@ -27,9 +27,11 @@ PROJECT_DIR = Path(__file__).resolve().parent.parent
 # Application definition
 
 INSTALLED_APPS = [
+    "wagtail.contrib.settings",
+    "django_cotton",
+
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
-    "wagtail.contrib.settings",
     "wagtail.embeds",
     "wagtail.sites",
     "wagtail.users",
@@ -41,7 +43,6 @@ INSTALLED_APPS = [
     "wagtail",
     "modelcluster",
     "taggit",
-    "django_cotton",
     "django_filters",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -50,10 +51,13 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-    "home",
+    "school",
+    "library",
     "content",
-    "themes",
+    "streams",
+    "navigation",
     "global",
+    "themes",
 ]
 
 MIDDLEWARE = [
@@ -90,7 +94,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "core.wsgi.application"
-
+WAGTAILMENUS_MAIN_MENU_ITEM_MODEL = 'utils.CustomMainMenuItem'
 
 # Get Secret Key from .env if it exists
 # generate new one if didn't and save it
@@ -146,7 +150,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = "id-ID"
+LANGUAGE_CODE = "en-US"
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True

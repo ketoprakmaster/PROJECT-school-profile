@@ -1,0 +1,107 @@
+{% load wagtailimages_tags wagtailcore_tags menu_tags %}
+
+{% main_menu 'main' as items %}
+
+<header class="sticky z-50 top-0">
+  <nav class=" navbar bg-base-100 shadow-lg flex flex-row items-center justify-between">
+
+    <!-- LEFT NAVBAR -->
+    <div class="flex items-center gap-2">
+
+      <a href="/" class="flex flex-row items-center gap-4 flex-none md:flex-1">
+        {% image settings.global.BrandSettings.logo max-100x100 class='rounded-full w-10 h-10 object-cover' %}
+        <span class="text-primary font-bold">
+          {{ settings.global.BrandSettings.name }}
+        </span>
+      </a>
+    </div>
+
+    <!-- RIGHT NAVBAR (Desktop) -->
+    <div class="flex-none hidden md:flex">
+      <ul class="menu menu-horizontal px-1 dropdown-end">
+        {% for item in items.menu_items %}
+          {% if item.has_child %}
+            <!-- Add dropdown-end here -->
+            <li class="relative">
+              <details>
+                <summary class="cursor-pointer">{{ item.title }}</summary>
+                <ul class="absolute right-0 mt-2 w-48 bg-base-100 rounded-md shadow p-2 z-50">
+                  {% for child in item.children_list %}
+                    <li>
+                      <a
+                        href="{{ child.href }}"
+                        {% if child.open_in_new_tab %}target="_blank"{% endif %}
+                      >
+                        {{ child.title }}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </details>
+            </li>
+          {% else %}
+            <li>
+              <a href="{{ item.href }}" {% if item.open_in_new_tab %}target="_blank"{% endif %}>
+                {{ item.title }}
+              </a>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+
+
+    <!-- Drawer Toggle Button (Mobile Only) -->
+    <label for="mobile-drawer" class="btn btn-ghost md:hidden drawer-end">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+           viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </label>
+  </nav>
+
+  <!-- MOBILE SIDEBAR (Drawer) -->
+  <div class="drawer md:hidden">
+    <input id="mobile-drawer" type="checkbox" class="drawer-toggle" />
+    <div class="drawer-side z-50">
+      <label for="mobile-drawer" class="drawer-overlay"></label>
+      <ul class="menu p-4 w-64 min-h-full bg-base-200 text-base-content">
+        <li class="mb-4">
+          <a href="/" class="flex items-center gap-3">
+            {% image settings.global.BrandSettings.logo max-100x100 class='rounded-full w-8 h-8 object-cover' %}
+            <span class="text-lg font-bold">
+              {{ settings.global.BrandSettings.name }}
+            </span>
+          </a>
+        </li>
+
+        <!-- MOBILE MENU ITEMS -->
+        {% for item in items.menu_items %}
+          {% if item.has_child %}
+            <li>
+              <details>
+                <summary>{{ item.title }}</summary>
+                <ul>
+                  {% for child in item.children_list %}
+                    <li>
+                      <a href="{{ child.href }}" {% if child.open_in_new_tab %}target="_blank"{% endif %}>
+                        {{ child.title }}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </details>
+            </li>
+          {% else %}
+            <li>
+              <a href="{{ item.href }}" {% if item.open_in_new_tab %}target="_blank"{% endif %}>
+                {{ item.title }}
+              </a>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</header>

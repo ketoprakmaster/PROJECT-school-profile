@@ -18,20 +18,17 @@
 
     <!-- RIGHT NAVBAR (Desktop) -->
     <div class="flex-none hidden md:flex">
-      <ul class="menu menu-horizontal px-1 dropdown-end">
+      <ul class="menu menu-horizontal px-1 dropdown-end ">
         {% for item in items.menu_items %}
           {% if item.has_child %}
             <!-- Add dropdown-end here -->
             <li class="relative">
               <details>
-                <summary class="cursor-pointer">{{ item.title }}</summary>
-                <ul class="absolute right-0 mt-2 w-48 bg-base-100 rounded-md shadow p-2 z-50">
+                <summary class="cursor-pointer hover:text-primary bg-transparent">{{ item.title }}</summary>
+                <ul class="absolute right-0 mt-2 w-48 bg-base-100 rounded-md shadow p-2 z-50 hover:text-primary">
                   {% for child in item.children_list %}
                     <li>
-                      <a
-                        href="{{ child.href }}"
-                        {% if child.open_in_new_tab %}target="_blank"{% endif %}
-                      >
+                      <a href="{{ child.href }}" {% if child.open_in_new_tab %}target="_blank"{% endif %}>
                         {{ child.title }}
                       </a>
                     </li>
@@ -40,14 +37,15 @@
               </details>
             </li>
           {% else %}
-            <li>
-              <a href="{{ item.href }}" {% if item.open_in_new_tab %}target="_blank"{% endif %}>
+            <li class="hover:text-primary">
+              <a class="bg-transparent" href="{{ item.href }}" {% if item.open_in_new_tab %}target="_blank"{% endif %}>
                 {{ item.title }}
               </a>
             </li>
           {% endif %}
         {% endfor %}
       </ul>
+      {% include 'includes/toggle.html' %}
     </div>
 
 
@@ -102,6 +100,10 @@
           {% endif %}
         {% endfor %}
       </ul>
+
+      <div class="fixed bottom-10 left-5">
+          {% include 'includes/toggle.html' %}
+      </div>
     </div>
   </div>
 </header>

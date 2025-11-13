@@ -32,7 +32,7 @@
     {% block extra_css %}{% endblock %}
 </head>
 
-<body class="font-sans">
+<body class="font-sans min-w-[400px]">
     <!-- Navbar -->
     {% block navbar %}
         {% include 'common/header.html' %}
@@ -47,6 +47,4 @@
 
     <!--Page Footer Here-->
     {% include 'common/footer.html' %}
-
-    {% include 'partials/theme_fab.html' %}
 </body>

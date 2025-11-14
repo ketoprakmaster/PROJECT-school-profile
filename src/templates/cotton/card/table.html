@@ -1,0 +1,23 @@
+{% load cotton %}
+
+<c-vars title="" subtitle="" border="border-t-4 border-primary"></c-vars>
+
+<div class="card bg-base-100 shadow-xl outline outline-base-300 {{ border }} {{ class }}">
+    <div class="card-body p-0">
+
+        <!-- Header -->
+        {% if title %}
+        <div class="bg-primary text-primary-content text-center p-6 space-y-1">
+            <h4 class="text-base font-semibold">{{ title }}</h4>
+
+            {% if subtitle %}
+            <p>{{ subtitle }}</p>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- Content Slot -->
+        {{ slot }}
+
+    </div>
+</div>

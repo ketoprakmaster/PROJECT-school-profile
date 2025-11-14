@@ -10,16 +10,15 @@
 </section>
 
 <section class="sm:p-10">
-    <div
-        class="container mx-auto p-4 sm:p-6 lg:flex lg:gap-6 text-xs md:text-sm"
-    >
-        <!-- Sidebar -->
-        <div class="lg:w-96 space-y-6 mb-6 lg:mb-0">
-            {% include 'partials/schedule-search-card.html'%}
-            {% include 'partials/schedule-guide-card.html'%}
+    <div class="gap-5 p-5 lg:flex flex-row">
+
+        <div class="space-y-3 lg:max-w-96 mb-5">
+            <c-card.search action="{% url 'school:schedule-search' %}" />
+
+            <c-card.guide />
         </div>
 
-        {% include 'partials/schedule-empty.html'%}
+        <c-schedule.empty />
     </div>
 </section>
 

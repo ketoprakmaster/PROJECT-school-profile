@@ -1,0 +1,39 @@
+{% load cotton %}
+
+<c-card.table title="Jadwal Pelajaran Semester Genap 2025/2026"
+              subtitle="Untuk Input: {{ query }}"
+              class="grow"
+>
+
+    <div class="overflow-x-auto flex-1">
+        <table class="table table-zebra text-sm">
+            <thead class="bg-primary text-primary-content">
+                <tr>
+                    <th class="text-center">KELAS</th>
+                    <th class="text-center">HARI</th>
+                    <th>MATA PELAJARAN</th>
+                    <th class="text-center">WAKTU</th>
+                    <th class="text-center">RUANG</th>
+                    <th>GURU</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for obj in results %}
+                <tr>
+                    <td class="text-center text-xs">{{ obj.class_obj.name }}</td>
+                    <td class="text-center">{{ obj.day }}</td>
+                    <td>{{ obj.subject.name }}</td>
+                    <td class="text-center">{{ obj.schedule_slot.start_time|time:"H:i" }}</td>
+                    <td class="text-center">{{ obj.room.name|default:'-' }}</td>
+                    <td>{{ obj.teacher.full_name }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="p-4 text-sm text-base-content/70">
+        Berlaku Mulai: 03 Februari 2025
+    </div>
+
+</c-card.table>

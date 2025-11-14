@@ -8,24 +8,18 @@ def schedule_search(request):
     schedules = None
 
     if query:
-        # Buat query pencarian
         search_query = Q(class_obj__name__icontains=query) | \
                        Q(teacher__full_name__icontains=query) | \
                        Q(subject__name__icontains=query)
 
-        # Eksekusi query
         schedules = SubjectSchedule.objects.filter(search_query)
-    else:
-        print("no query found!")
-    # Siapkan konteks untuk template
+
     context = {
         "query": query,
         "results": schedules
     }
 
-    time.sleep(.5)
-    # Render partial template dan kembalikan sebagai respons
-    return render(request, "partials/schedule-response.html", context)
+    return render(request, "cotton/schedule/results.html", context)
 
 
 def schedule_view(request):
@@ -41,4 +35,6 @@ def calendar_view(request):
     context = {
         'events': events
     }
+
+    print(context["events"])
     return render(request, "school/calendar_page.html", context)

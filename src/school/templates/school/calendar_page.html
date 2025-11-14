@@ -7,10 +7,9 @@
     </c-slot>
 </c-section.heading>
 
-<section class="p-5 min-w-[400px]">
-
-
-    {% include "partials/calendar.html" %}
-
+<section class="p-5 min-w-[400px] ">
+    <div class="max-w-5xl mx-auto">
+        <c-calendar.table :events=events />
+    </div>
 </section>
 {% endblock %}

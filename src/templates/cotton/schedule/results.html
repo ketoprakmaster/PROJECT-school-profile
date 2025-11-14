@@ -1,0 +1,25 @@
+{% load cotton %}
+
+<c-vars query="" >
+
+
+<div class="grow space-y-6 relative" id="search-result">
+    <c-indicator.loading></c-indicator.loading>
+
+    <div class="flex items-center gap-2">
+        <c-icon.calendar class="w-10 h-10"></c-icon.calendar>
+        <h1 class="font-semibold text-xl md:text-4xl">Hasil Pencarian</h1>
+    </div>
+
+    <div class="alert alert-info text-center text-primary-content">
+        {% if results|length > 0 %}
+        <span>Ditemukan {{ results|length }} jadwal untuk pencarian "<b>{{ query }}</b>"</span>
+        {% else %}
+        <span>Tidak ditemukan jadwal untuk pencarian "<b>{{ query }}</b>"</span>
+        {% endif %}
+    </div>
+
+    {% if results %}
+    <c-schedule.table :results="results"></c-schedule.table>
+    {% endif %}
+</div>

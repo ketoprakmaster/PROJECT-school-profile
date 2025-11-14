@@ -1,0 +1,64 @@
+{% load cotton %}
+
+<c-vars
+    events=""
+    title="Jadwal Kegiatan Akademik"
+    subtitle="Tahun Ajaran 2025/2026"
+></c-vars>
+
+<!-- Wrapper -->
+<c-card.table title="{{ title }}" subtitle="{{ subtitle }}">
+
+    <!-- Inside slot: our table -->
+    <div class="overflow-x-auto">
+        <table class="table table-zebra text-base-content text-sm sm:text-md">
+            <thead class="bg-primary text-primary-content">
+                <tr>
+                    <th class="text-center font-semibold">Kegiatan</th>
+                    <th class="text-center font-semibold">Tanggal</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for event in events %}
+                <tr class="hover">
+                    <td class="flex items-center gap-3 px-4 py-2.5">
+                        <c-icon.calendar class="w-5 h-5"></c-icon.calendar>
+                        {{ event.event_name }}
+                    </td>
+
+                    <td class="px-4 py-2.5">
+                        <span>{{ event.event_start|date:"d F" }}</span>
+
+                        {% if event.event_end %}
+                            - <span class="text-error">{{ event.event_end|date:"d F Y" }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Footer -->
+    <div class="p-4 border-t border-base-300 bg-base-200 text-sm text-base-content/70 flex flex-col sm:flex-row justify-between gap-3">
+
+        <div class="flex items-center gap-2">
+            <c-icon.calendar class="w-5 h-5 text-primary/80"></c-icon.calendar>
+            Tahun Ajaran:
+            <span class="ml-1 font-medium text-base-content">
+                15 Juli 2025
+            </span>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <c-icon.calendar class="w-5 h-5 text-error/80"></c-icon.calendar>
+            Berakhir:
+            <span class="ml-1 font-medium text-error">
+                27 Juni 2026
+            </span>
+        </div>
+
+    </div>
+
+</c-card.table>

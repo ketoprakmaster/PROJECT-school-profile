@@ -1,5 +1,6 @@
-{% load wagtailimages_tags %}
+{% load wagtailimages_tags menu_tags %}
 
+{% main_menu 'footer' as items %}
 
 <footer class=" text-base-content/80 bg-base-300 odd:bg-base-200 even:bg-base-300">
   <div class="container mx-auto max-w-6xl px-6 py-12 text-xs sm:text-sm md:text-base">
@@ -84,12 +85,15 @@
       <!-- Quick Links -->
       <div>
         <h3 class="text-lg font-semibold text-base-content mb-4">Tautan Cepat</h3>
+        {% if items.menu_items %}
         <ul class="space-y-2 text-base-content/60">
-          <li><a href="#" class="hover:text-primary transition-colors">Beranda</a></li>
-          <li><a href="#" class="hover:text-primary transition-colors">Kalender Akademik</a></li>
-          <li><a href="#" class="hover:text-primary transition-colors">Pencarian Jadwal Kelas</a></li>
-          <li><a href="#" class="hover:text-primary transition-colors">Visi &amp; Misi</a></li>
+            {% for item in items.menu_items %}
+            <li><a href="{{ item.href }}" class="hover:text-primary transition-colors">{{ item.title }}</a></li>
+            {% endfor %}
         </ul>
+        {% else %}
+            WIP COMING SOON
+        {% endif %}
       </div>
     </div>
 

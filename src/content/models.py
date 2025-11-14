@@ -16,11 +16,7 @@ class StandardPage(Page):
     template = "content/standard_page.html"
     parent_pages_types = ["content.HomePage"]
 
-    body = StreamField([
-        ('heading', blocks.CharBlock(form_classname="title", icon="title")),
-        ('paragraph', blocks.RichTextBlock(icon="pilcrow")),
-        ('image', ImageChooserBlock(icon="image")),
-    ], use_json_field=True, blank=True, null=True)
+    body = bodyBlocks
 
     content_panels = Page.content_panels + [
         FieldPanel('body'),

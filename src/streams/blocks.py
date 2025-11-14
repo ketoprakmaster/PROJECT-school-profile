@@ -3,6 +3,75 @@ from wagtail.fields import StreamField
 from wagtail.images.blocks import ImageChooserBlock
 
 
+from streams.vars import FLOWBITE_ICONS
+from school.models import AcademicCalendar
+
+
+class AcademicCalendarBlock(blocks.StructBlock):
+    """block for the academic calendars"""
+    title = blocks.CharBlock(default="Jadwal Kegiatan Akademik", required=False)
+    subtitle = blocks.CharBlock(required=False)
+    limit = blocks.IntegerBlock(default=50, required=False)
+    show_description = blocks.BooleanBlock(default=False, required=False)
+
+    def get_context(self, value, parent_context=None):
+        context = super().get_context(value, parent_context)
+
+        qs = AcademicCalendar.objects.all()
+        if value["limit"]:
+            qs = qs[:value["limit"]]
+
+        context["events"] = qs
+        return context
+
+    class Meta:
+        template = "blocks/calendar-section.html"
+        icon = "date"
+        label = "Academic Calendar"
+
+
+class HeadingBlock(blocks.StructBlock):
+    title = blocks.CharBlock()
+    subtitle = blocks.CharBlock()
+    icon_choice = blocks.ChoiceBlock(
+        choices=[(value, key) for key, value in FLOWBITE_ICONS.items()],
+        required=False,
+        default= FLOWBITE_ICONS["calendar"]
+    )
+
+    class Meta:
+        template = "blocks/heading-section.html"
+        icon = "image"
+        label = "Heading Block"
+
+
+class CarouselBlock(blocks.StructBlock):
+    """Caraousel Block for block with panels"""
+    images = blocks.ListBlock(
+        ImageChooserBlock(),
+        help_text="Add images to display in the carousel."
+    )
+
+    class Meta:
+        template = "blocks/carousel-section.html"
+        icon = "image"
+        label = "Carousel"
+
+    def get_context(self, value, parent_context=None):
+        context = super().get_context(value, parent_context)
+        for key, value in context.items():
+            print(f"{key}: {value}")
+        return context
+
+class ScheduleBlock(blocks.StructBlock):
+    """Schedule Block F=for Searching Schedule"""
+
+    class Meta:
+        template = "blocks/schedule-section.html"
+        icon = "date"
+        label = "schedule search"
+
+
 class HeroBlock(blocks.StructBlock):
     """Block for the main hero section."""
     hero_title = blocks.RichTextBlock(required=False, features=['bold', 'italic', 'br'], help_text="Judul utama. Gunakan Shift+Enter untuk baris baru." )
@@ -10,7 +79,7 @@ class HeroBlock(blocks.StructBlock):
     hero_image = ImageChooserBlock(required=False, help_text="Gambar latar belakang atau gambar utama.")
 
     class Meta:
-        template = "blocks/hero_block.html"
+        template = "blocks/hero-section.html"
         icon = "home"
         label = "Hero Section"
 
@@ -35,7 +104,7 @@ class TitledCardSectionBlock(blocks.StructBlock):
     ], use_json_field=True, required=False)
 
     class Meta:
-        template = "blocks/titled_card_section_block.html"
+        template = "blocks/titled-card-section.html"
         icon = "table"
         label = "Titled Card Section"
 
@@ -46,12 +115,16 @@ class MapsEmbedBlock(blocks.StructBlock):
     element = blocks.RawHTMLBlock(required=False, help_text="Tempat section untuk menaruh peta lokasi")
 
     class Meta:
-        template = "blocks/maps_block.html"
+        template = "blocks/maps-section.html"
         label = "Maps Sections"
 
 
 body = StreamField([
     ('hero_section', HeroBlock()),
     ('card_section', TitledCardSectionBlock()),
-    ('maps_section', MapsEmbedBlock())
+    ('maps_section', MapsEmbedBlock()),
+    ('academic_scrions', AcademicCalendarBlock()),
+    ('heading_sections', HeadingBlock()),
+    ('schedule_sections', ScheduleBlock()),
+    ('carousel_sections', CarouselBlock())
 ], use_json_field=True, blank=True, null=True)

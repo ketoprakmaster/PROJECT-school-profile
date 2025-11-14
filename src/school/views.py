@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Q
-from .models import SubjectSchedule, AcademicCalendar
-import time
+from .models import SubjectSchedule
 
 def schedule_search(request):
     query = request.GET.get("query")
@@ -20,21 +19,3 @@ def schedule_search(request):
     }
 
     return render(request, "cotton/schedule/results.html", context)
-
-
-def schedule_view(request):
-
-    return render(request, "school/schedule_page.html")
-
-
-def calendar_view(request):
-    """
-    A standard Django view to render the calendar page.
-    """
-    events = AcademicCalendar.objects.all()
-    context = {
-        'events': events
-    }
-
-    print(context["events"])
-    return render(request, "school/calendar_page.html", context)

@@ -5,8 +5,6 @@ from . import views
 app_name = "school"
 
 urlpatterns = [
-    path('jadwal/', views.schedule_view, name='schedule-page'),
-    path('jadwal/cari/', views.schedule_search, name='schedule-search'),
-    path('kalender/', views.calendar_view, name='calendar-page'),
+    path('get/', views.schedule_search, name='schedule-search'),
 
 ]

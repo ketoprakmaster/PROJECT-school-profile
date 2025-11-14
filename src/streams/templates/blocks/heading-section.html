@@ -1,20 +1,20 @@
 {% load cotton %}
 
+
 <c-vars
     class="w-20 h-20 mx-auto"
     bg="bg-base-200"
-    title="Default Title"
-    text="Default Text"
+    title="{{ value.title }}"
+    text="{{ value.subtitle }}"
     path=""
 ></c-vars>
 
 <section class="{{ bg }}">
     <div class="flex flex-col justify-center max-w-6xl gap-5 p-10 text-base-content mx-auto">
-        {% if path %}
-            {{ path }}
-        {% else %}
-            <c-icon.calendar class="{{ class }}"></c-icon.calendar>
-        {% endif %}
+        <svg class="{{ class }}" fill="none" stroke="1}" viewBox="0 0 24 24">
+            {{ value.icon_choice|safe }}
+        </svg>
+
         <h2 class="font-semibold text-xl sm:text-2xl md:text-4xl mx-auto">{{ title }}</h2>
         <p class="text-base-content/50 text-sm sm:text-md md:text-lg mx-auto">{{ text }}</p>
     </div>

@@ -1,0 +1,7 @@
+<div class="breadcrumbs text-sm overflow-x-visible">
+    <ul>
+        {% for page in ancestors %}
+            <li><a href="{{ page.url }}"> {{ page.title}}</a></li>
+        {% endfor %}
+    </ul>
+</div>

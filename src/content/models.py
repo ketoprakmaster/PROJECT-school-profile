@@ -6,7 +6,7 @@ from wagtail.fields import StreamField, RichTextField
 from wagtail import blocks
 from wagtail.images.blocks import ImageChooserBlock
 
-from streams.blocks import body as bodyBlocks
+from streams.blocks import body as bodyBlocks, CarouselBlock
 
 class StandardPage(Page):
     """
@@ -34,19 +34,25 @@ class ArticleIndexPage(Page):
     parent_pages_types = ["content.HomePage"]
     subpage_types = ['content.ArticlePage']
 
-    introduction = RichTextField(blank=True)
+    body = bodyBlocks
 
     content_panels = Page.content_panels + [
-        FieldPanel('introduction')
+        FieldPanel('body')
     ]
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        # Get all live, public child pages, ordered by most recent date
-        articles = self.get_children().live().public().order_by('-first_published_at')
-        context['articles'] = articles
-        return context
+        articles = (self.get_children().live().public().specific().order_by('-first_published_at'))
 
+        query = request.GET.get("q")
+        if query:
+            articles = articles.filter(title__icontains=query)
+
+        context["query"] = query
+        context["articles"] = articles
+        print(context["articles"])
+        return context
+    
     class Meta:
         verbose_name = "Article/News Index Page"
 

@@ -1,18 +1,20 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags breadcrumbs_tags %}
 
 {% block content %}
-<div class="container mx-auto px-6 py-12">
+<section class="container mx-auto p-20">
+    {% breadcrumbs %}
+
     <article>
-        <h1 class="text-4xl md:text-5xl font-bold text-base-content mb-2">{{ page.title }}</h1>
+        <h1 class="text-4xl md:text-5xl font-bold text-base-content my-2">{{ page.title }}</h1>
         <p class="text-base-content/70 text-lg mb-4">{{ page.date }}</p>
         <p class="text-xl text-base-content/80 mb-8">{{ page.introduction }}</p>
-
-        <div class="prose lg:prose-xl max-w-none">
-            {% for block in page.body %}
-                {% include_block block %}
-            {% endfor %}
-        </div>
     </article>
-</div>
+
+    <div class="prose max-w-6xl lg:prose-lg">
+        {% for block in page.body %}
+            {% include_block block %}
+         {% endfor %}
+    </div>
+</section>
 {% endblock %}

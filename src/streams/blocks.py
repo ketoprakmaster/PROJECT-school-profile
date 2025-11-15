@@ -59,8 +59,7 @@ class CarouselBlock(blocks.StructBlock):
 
     def get_context(self, value, parent_context=None):
         context = super().get_context(value, parent_context)
-        for key, value in context.items():
-            print(f"{key}: {value}")
+
         return context
 
 class ScheduleBlock(blocks.StructBlock):

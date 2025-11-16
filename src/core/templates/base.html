@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailuserbar %}
+{% load static wagtailcore_tags wagtailuserbar wagtailimages_tags %}
 <!DOCTYPE html>
 <html lang="id">
 
@@ -22,6 +22,10 @@
     <base target="_blank">
     {% endif %}
 
+    <!-- set the icon from global sitesettings -->
+    {% image settings.global.BrandSettings.logo max-100x100 as icon %}
+    <link rel="icon" type="image/x-icon" href="{{ icon.url }}">
+
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js"></script>
@@ -30,10 +34,10 @@
     {% block extra_css %}{% endblock %}
 </head>
 
-<body class="min-w-[400px]">
+<body class="min-w-[350px]">
     <!-- Navbar -->
     {% block navbar %}
-        {% include 'common/header.html' %}
+        <c-common.header/>
     {% endblock %}
 
     <!-- Page content here -->
@@ -44,5 +48,5 @@
     {% endblock %}
 
     <!--Page Footer Here-->
-    {% include 'common/footer.html' %}
+    <c-common.footer/>
 </body>

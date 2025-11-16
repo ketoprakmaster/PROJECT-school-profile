@@ -67,8 +67,7 @@ class ArticlePage(Page):
     date = models.DateField("Post date")
     introduction = models.CharField(max_length=250)
     body = StreamField([
-        ('heading', blocks.CharBlock(form_classname="title", icon="title")),
-        ('paragraph', blocks.RichTextBlock(icon="pilcrow")),
+        ('text', blocks.RichTextBlock(icon="pilcrow")),
         ('image', ImageChooserBlock(icon="image")),
     ], use_json_field=True)
 

@@ -8,9 +8,11 @@ dependencies = [
     "dj-database-url>=3.0.1",
     "django-cotton>=2.3.0",
     "dotenv>=0.9.9",
-    "psycopg>=3.2.12",
+    "gunicorn>=23.0.0",
+    "psycopg[binary]>=3.2.12",
     "python-decouple>=3.8",
     "wagtail>=7.1.2",
+    "whitenoise[brotli]>=6.11.0",
 ]
 
 [tool.pyright]

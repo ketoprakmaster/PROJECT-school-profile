@@ -4,6 +4,10 @@ from .base import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+if DEBUG:
+    CSRF_TRUSTED_ORIGINS = [
+        "https://helvetica-wsl.noodlefish-hen.ts.net"
+    ]
 
 
 # SECURITY WARNING: define the correct hosts in production!

@@ -3,42 +3,42 @@ import sys, logging
 
 DEBUG = config("DEBUG", cast=bool, default=False)
 
+ # Debugging in heroku live
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
-            'format': '%(levelname)s [%(asctime)s] %(name)s: %(message)s'
+            'format': ('%(asctime)s [%(process)d] [%(levelname)s] ' +
+                       'pathname=%(pathname)s lineno=%(lineno)s ' +
+                       'funcname=%(funcName)s %(message)s'),
+            'datefmt': '%Y-%m-%d %H:%M:%S'
         },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        }
     },
     'handlers': {
-        'console': {
-            'level': 'DEBUG',  # Log INFO level and higher messages
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose',
-            'stream': sys.stdout,
-            'filters': []
+        'null': {
+            'level': 'DEBUG',
+            'class': 'logging.NullHandler',
         },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        }
     },
     'loggers': {
-        '': {
+        'testlogger': {
             'handlers': ['console'],
-            'level': 'DEBUG', # Change the root logger to DEBUG
-            'propagate': True,
-        },
-        'django.request': {
-            'handlers': ['console'],
-            'level': 'DEBUG', # Explicitly set django.request to DEBUG
-            'propagate': False,
-        },
-
-        'django.db.backends': {
-            'handlers': ['console'],
-            'level': 'WARNING',
-            'propagate': False,
-        },
-    },
+            'level': 'INFO',
+        }
+    }
 }
+
+DEBUG_PROPAGATE_EXCEPTIONS = True
+COMPRESS_ENABLED = os.environ.get('COMPRESS_ENABLED', False)
 
 
 # configure the apss domains

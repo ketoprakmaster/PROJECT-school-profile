@@ -37,7 +37,7 @@ if config("LOGGING", cast=bool, default=True):
         }
     }
 
-DEBUG_PROPAGATE_EXCEPTIONS = True
+DEBUG_PROPAGATE_EXCEPTIONS = config("DEBUG_PROPAGATE_EXCEPTIONS",cast=bool,default=False)
 COMPRESS_ENABLED = os.environ.get('COMPRESS_ENABLED', False)
 
 

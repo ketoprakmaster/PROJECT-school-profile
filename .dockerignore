@@ -1,0 +1,44 @@
+# Git
+.git
+.gitignore
+
+# Python
+.venv
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.python-version
+uv.lock
+
+# Node
+node_modules
+
+# IDE
+.idea
+.vscode
+
+# Build artifacts
+dist/
+build/
+
+# Static and media files
+/src/static/
+/src/media/
+/src/themes/static/*
+
+# Documentation
+GEMINI.md
+
+# environmet variable files
+.env
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# database
+*.sqlite3

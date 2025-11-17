@@ -1,11 +1,13 @@
-{% extends "base.html" %}
+{% extends "base.html"  %}
 
-{% block title %}Page not found{% endblock %}
+{% block title %}Halaman tidak Ditemukan{% endblock %}
 
 {% block body_class %}template-404{% endblock %}
 
 {% block content %}
-<h1>Page not found</h1>
-
-<h2>Sorry, this page could not be found.</h2>
+<c-common.error
+    code="404"
+    title="Halaman tidak Ditemukan"
+    subtitle="Maaf, kami tidak dapat menemukan halaman yang Anda cari."
+/>
 {% endblock %}

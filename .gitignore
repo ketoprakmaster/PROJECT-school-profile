@@ -5,7 +5,7 @@ yarn-debug.log*
 yarn-error.log*
 .pnp/
 .pnp.js
-.env*
+.env
 
 # Build artifacts
 dist/

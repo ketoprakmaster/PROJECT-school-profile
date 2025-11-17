@@ -63,12 +63,18 @@ COPY --from=frontend-builder /app/src/themes/static/css/styles.css /app/src/them
 # Copy application code (Only the necessary files, excluding the ones already in the build stage)
 COPY src/ /app/src/
 
+# Create the media directory, resolving to /app/src/media, which matches your MEDIA_ROOT logic.
+RUN mkdir -p /app/src/media
+# Ensure write permissions for the user running gunicorn inside the container.
+RUN chmod -R 777 /app/src/media
+
 # Set the working directory to the Django project root
 WORKDIR /app/src
 
 # Collect static files
 # Explicitly call the Python interpreter from the virtual environment (venv)
 RUN /opt/venv/bin/python manage.py collectstatic --noinput -v 3
+RUN /opt/venv/bin/python manage.py migrate
 
 # Expose port 8000
 EXPOSE 8000

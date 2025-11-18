@@ -1,0 +1,19 @@
+{% load wagtailimages_tags wagtailcore_tags %}
+
+<div class="card shadow-xl x outline-1 outline-base-300">
+    {% comment %}  posts thumnails {% endcomment%}
+    <figure class="border-t-8 border-primary">
+    {% if post.thumbnail %}
+        {% image post.thumbnail fill-1000x100 as img %}
+        <img src="{{img.url}}" class="w-full"/>
+    {% endif %}
+    </figure>
+
+    <div class="card-body">
+        <h2 class="card-title">
+            <a href="{% pageurl post %}" class="hover:text-primary">{{ post.title }}</a>
+        </h2>
+        <p class="text-base-content/70 ">{{ post.date }}</p>
+        <p>{{ post.introduction }}</p>
+    </div>
+</div>

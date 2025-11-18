@@ -9,7 +9,6 @@ __pycache__/
 *.pyo
 *.pyd
 .python-version
-uv.lock
 
 # Node
 node_modules
@@ -41,4 +40,4 @@ Thumbs.db
 *.log
 
 # database
-*.sqlite3
+**/*.sqlite3

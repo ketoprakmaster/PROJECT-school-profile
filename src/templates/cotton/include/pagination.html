@@ -1,0 +1,77 @@
+{% load cotton %}
+
+
+{% with page_obj=posts num_pages=posts.paginator.num_pages %}
+
+    {% if num_pages > 1 %}
+        <div class="join mt-10 flex justify-center" aria-label="Pagination Navigation">
+
+            {# --- FIRST PAGE LINK (Beginning) --- #}
+            {% if page_obj.number != 1 %}
+                <a href="?page=1{% if query %}&query={{ query }}{% endif %}" class="join-item btn">
+                    « First
+                </a>
+            {% endif %}
+
+            {# --- PREVIOUS PAGE LINK --- #}
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if query %}&query={{ query }}{% endif %}" class="join-item btn">
+                    « Previous
+                </a>
+            {% endif %}
+
+            {# --- PAGE NUMBER LINKS AND ELLIPSES --- #}
+            {% for i in page_obj.paginator.page_range %}
+
+                {% comment %}
+                    Display rules:
+                    1. The current page (i == page_obj.number)
+                    2. Pages within 2 steps of the current page (i.e., page_obj.number +/- 2)
+                    3. Ellipsis is shown exactly once before and once after the 5-page window.
+                {% endcomment %}
+
+                {% comment %} Current Page (Active Button) {% endcomment %}
+                {% if i == page_obj.number %}
+                    <button class="join-item btn btn-active bg-blue-600 text-white border-blue-600 hover:bg-blue-700" aria-current="page">
+                        {{ i }}
+                    </button>
+
+                {% comment %} Pages in the 2-page window around the current page {% endcomment %}
+                {% elif i > page_obj.number|add:"-3" and i < page_obj.number|add:"3" %}
+                    <a href="?page={{ i }}{% if query %}&query={{ query }}{% endif %}" class="join-item btn ">
+                        {{ i }}
+                    </a>
+
+                {% comment %} Ellipsis for pages skipped before the displayed window {% endcomment %}
+                {% elif i == page_obj.number|add:"-3" and i > 1 %}
+                    <button class="join-item btn btn-disabled cursor-default pointer-events-none" disabled>
+                        ...
+                    </button>
+
+                {% comment %} Ellipsis for pages skipped after the displayed window {% endcomment %}
+                {% elif i == page_obj.number|add:"3" and i < num_pages %}
+                    <button class="join-item btn btn-disabled cursor-default pointer-events-none" disabled>
+                        ...
+                    </button>
+                {% endif %}
+
+            {% endfor %}
+
+            {# --- NEXT PAGE LINK --- #}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if query %}&query={{ query }}{% endif %}" class="join-item btn">
+                    Next »
+                </a>
+            {% endif %}
+
+            {# --- LAST PAGE LINK (Last) --- #}
+            {% if page_obj.number != num_pages %}
+                <a href="?page={{ num_pages }}{% if query %}&query={{ query }}{% endif %}" class="join-item btn">
+                    Last »
+                </a>
+            {% endif %}
+
+        </div>
+    {% endif %}
+
+{% endwith %}

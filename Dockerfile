@@ -1,84 +1,80 @@
-# Stage 1: Build frontend assets
+# ---------------------------
+# Stage 1: Build frontend assets (Tailwind)
+# ---------------------------
 FROM node:24-slim AS frontend-builder
 
 WORKDIR /app
 
-# copy the entire wagtail project source
-COPY ./src/ /app/src
-
-# Copy package files and install ALL dependencies needed for the build (including dev deps like Tailwind)
+# Install frontend deps
 COPY package.json package-lock.json* ./
 RUN npm install
 
-
-# Copy frontend source files (the input CSS files)
+# Copy only the files needed for CSS build
 COPY ./src/themes/source/ /app/src/themes/source/
+COPY ./src/ /app/src/
 
-# Build CSS (Templates are now available at /app/src/ for the build tool to scan)
+# Build CSS
 RUN npm run build:css
 
 
-# Stage 2: Build Python dependencies
-FROM python:3.14-slim-bookworm AS python-builder
 
-ENV PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1
+# ---------------------------
+# Stage 2: Build Python dependencies using uv
+# ---------------------------
+# Use a Python image with uv pre-installed
+FROM ghcr.io/astral-sh/uv:python3.14-alpine AS builder-python
 
-# Install uv (The dependency installer)
-RUN pip install uv
-
+# Install the project into `/app`
 WORKDIR /app
 
-# Create and activate virtual environment
-# We create the venv outside of the standard working directory to isolate it
-RUN python -m venv /opt/venv
+# Ensure installed tools can be executed out of the box
+ENV UV_COMPILE_BYTECODE=1
+# Copy from the cache instead of linking since it's a mounted volume
+ENV UV_LINK_MODE=copy
+# Enable bytecode compilation
+ENV UV_TOOL_BIN_DIR=/usr/local/bin
 
-# Set the PATH environment variable to include the venv's bin directory
-ENV PATH="/opt/venv/bin:$PATH"
+# Install the project's dependencies using the lockfile and settings
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --locked --no-install-project --no-dev
 
-# Install dependencies into the virtual environment
-COPY requirements.txt /tmp/requirements.txt
-# We use the 'uv' installed in the base image, but it installs into the venv
-RUN uv pip install --no-cache-dir -r /tmp/requirements.txt
+# Then, add the rest of the project source code and install it
+# Installing separately from its dependencies allows optimal layer caching
+COPY . /app
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked --no-dev 
 
 
-# Final stage: Production image
-# Use a lean base image for the final deployable artifact
-FROM python:3.14-slim-bookworm
+
+# ---------------------------
+# Stage 3: Final production image
+# ---------------------------
+FROM python:3.14-alpine
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    PATH="/opt/venv/bin:$PATH" \
-    DJANGO_SETTINGS_MODULE=core.settings.production
+    PATH="/venv/bin:$PATH"
 
 WORKDIR /app
 
-# Copy virtual environment from python-builder
-COPY --from=python-builder /opt/venv /opt/venv
-
+# Copy virtual environment
+COPY --from=builder-python /app/.venv /venv
 # Copy built frontend assets
-# Note: Ensure the destination path matches where Django expects it, typically /app/src/static or similar
-COPY --from=frontend-builder /app/src/themes/static/css/styles.css /app/src/themes/static/css/styles.css
+COPY --from=frontend-builder /app/src/themes/static/ /app/src/themes/static/
+# Copy Django project
+COPY ./src/ /app/src/
 
-# Copy application code (Only the necessary files, excluding the ones already in the build stage)
-COPY src/ /app/src/
+# Copy startup script (Linux LF only)
+COPY --chmod=755 ./docker/run.sh /app/run.sh
 
-# Create the media directory, resolving to /app/src/media, which matches your MEDIA_ROOT logic.
-RUN mkdir -p /app/src/media
-# Ensure write permissions for the user running gunicorn inside the container.
-RUN chmod -R 777 /app/src/media
+# Create media directory
+RUN mkdir -p /app/src/media && \
+    chmod -R 777 /app/src/media
 
-# Set the working directory to the Django project root
 WORKDIR /app/src
 
-# Collect static files
-# Explicitly call the Python interpreter from the virtual environment (venv)
-RUN /opt/venv/bin/python manage.py collectstatic --noinput -v 3
-RUN /opt/venv/bin/python manage.py migrate
-
-# Expose port 8000
 EXPOSE 8000
 
-# Run gunicorn
-# Use the executable directly from the venv's bin folder
-CMD ["/opt/venv/bin/gunicorn", "core.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["/app/run.sh"]

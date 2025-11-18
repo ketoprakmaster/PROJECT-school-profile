@@ -73,6 +73,7 @@ packaging==25.0
     # via gunicorn
 pillow==12.0.0
     # via
+    #   project-school-profile (pyproject.toml)
     #   pillow-heif
     #   wagtail
 pillow-heif==1.1.1
@@ -98,6 +99,10 @@ typing-extensions==4.15.0
     #   beautifulsoup4
     #   django-stubs-ext
     #   django-tasks
+tzdata==2025.2
+    # via
+    #   django
+    #   psycopg
 urllib3==2.5.0
     # via requests
 wagtail==7.2

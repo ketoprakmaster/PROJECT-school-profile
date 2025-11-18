@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from wagtail.models import Page
 from wagtail.admin.panels import FieldPanel
@@ -42,17 +43,27 @@ class ArticleIndexPage(Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        articles = (self.get_children().live().public().specific().order_by('-first_published_at'))
+        posts = (self.get_children().live().public().specific().order_by('-first_published_at'))
 
-        query = request.GET.get("q")
+        query = request.GET.get("query")
+        page = request.GET.get("page",1)
+
         if query:
-            articles = articles.filter(title__icontains=query)
+            posts = posts.filter(title__icontains=query)
+
+        paginator = Paginator(posts,10)
+
+        try:
+            posts = paginator.page(page)
+        except PageNotAnInteger:
+            posts = paginator.page(1)
+        except EmptyPage:
+            posts = paginator.page(paginator.num_pages)
 
         context["query"] = query
-        context["articles"] = articles
-        print(context["articles"])
+        context["posts"] = posts
         return context
-    
+
     class Meta:
         verbose_name = "Article/News Index Page"
 
@@ -66,14 +77,22 @@ class ArticlePage(Page):
 
     date = models.DateField("Post date")
     introduction = models.CharField(max_length=250)
+    thumbnail = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
     body = StreamField([
         ('text', blocks.RichTextBlock(icon="pilcrow")),
-        ('image', ImageChooserBlock(icon="image")),
     ], use_json_field=True)
 
     content_panels = Page.content_panels + [
         FieldPanel('date'),
         FieldPanel('introduction'),
+        FieldPanel('thumbnail'),
         FieldPanel('body'),
     ]
 

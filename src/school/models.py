@@ -3,12 +3,12 @@ from django.contrib.auth.models import User # Asumsi menggunakan User bawaan Dja
 
 
 DAY_CHOICES = (
-    ('SENIN', 'Senin'),
-    ('SELASA', 'Selasa'),
-    ('RABU', 'Rabu'),
-    ('KAMIS', 'Kamis'),
-    ('JUMAT', 'Jumat'),
-    ('SABTU', 'Sabtu'),
+    ('MONDAY', 'Senin'),
+    ('TUESDAY', 'Selasa'),
+    ('WEDNESDAY', 'Rabu'),
+    ('THURSDAY', 'Kamis'),
+    ('FRIDAY', 'Jumat'),
+    ('SATURDAY', 'Sabtu'),
 )
 
 

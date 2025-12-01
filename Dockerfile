@@ -44,7 +44,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 # Installing separately from its dependencies allows optimal layer caching
 COPY . /app
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --locked --no-dev 
+    uv sync --locked --no-dev
 
 
 
@@ -55,26 +55,26 @@ FROM python:3.14-alpine
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    PATH="/venv/bin:$PATH"
+    PATH="/opt/venv/bin:$PATH"
 
 WORKDIR /app
-
-# Copy virtual environment
-COPY --from=builder-python /app/.venv /venv
-# Copy built frontend assets
-COPY --from=frontend-builder /app/src/themes/static/ /app/src/themes/static/
-# Copy Django project
-COPY ./src/ /app/src/
-
-# Copy startup script (Linux LF only)
-COPY --chmod=755 ./docker/run.sh /app/run.sh
 
 # Create media directory
 RUN mkdir -p /app/src/media && \
     chmod -R 777 /app/src/media
 
-WORKDIR /app/src
+# Copy virtual environment
+COPY --from=builder-python /app/.venv /opt/venv
+# Copy built frontend assets
+COPY --from=frontend-builder /app/src/themes/static/ /app/src/themes/static/
+# Copy Django project
+COPY ./src/ /app/src/
+# Copy startup script (Linux LF only)
+COPY --chmod=755 ./docker/run.sh /app/run.sh
 
+
+WORKDIR /app/src
 EXPOSE 8000
 
-CMD ["/app/run.sh"]
+ENTRYPOINT ["/app/run.sh"]
+CMD [ "python", "-m", "gunicorn", "core.wsgi:application", "--bind", "0.0.0.0:8000", "-w","4"]

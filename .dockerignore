@@ -3,11 +3,11 @@
 .gitignore
 
 # Python
-.venv
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
+*venv
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
 .python-version
 
 # Node
@@ -22,9 +22,9 @@ dist/
 build/
 
 # Static and media files
-/src/static/
-/src/media/
-/src/themes/static/*
+.src/static/
+.src/media/
+.src/themes/static
 
 # Documentation
 GEMINI.md
@@ -37,7 +37,7 @@ GEMINI.md
 Thumbs.db
 
 # Logs
-*.log
+**/*.log
 
 # database
 **/*.sqlite3

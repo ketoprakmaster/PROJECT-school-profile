@@ -31,8 +31,8 @@ class AcademicCalendarBlock(blocks.StructBlock):
 
 
 class HeadingBlock(blocks.StructBlock):
-    title = blocks.CharBlock()
-    subtitle = blocks.CharBlock()
+    title = blocks.CharBlock(required=False)
+    subtitle = blocks.CharBlock(required=False)
     icon_choice = blocks.ChoiceBlock(
         choices=[(value, key) for key, value in FLOWBITE_ICONS.items()],
         required=False,
@@ -74,7 +74,7 @@ class ScheduleBlock(blocks.StructBlock):
 class HeroBlock(blocks.StructBlock):
     """Block for the main hero section."""
     hero_title = blocks.RichTextBlock(required=False, features=['bold', 'italic', 'br'], help_text="Judul utama. Gunakan Shift+Enter untuk baris baru." )
-    hero_subtitle = blocks.TextBlock(required=False, help_text="Subjudul atau deskripsi singkat." )
+    hero_subtitle = blocks.RichTextBlock(required=False,features=['bold', 'italic', 'br'], help_text="Subjudul atau deskripsi singkat." )
     hero_image = ImageChooserBlock(required=False, help_text="Gambar latar belakang atau gambar utama.")
 
     class Meta:
@@ -107,6 +107,7 @@ class TitledCardSectionBlock(blocks.StructBlock):
         icon = "table"
         label = "Titled Card Section"
 
+
 class MapsEmbedBlock(blocks.StructBlock):
     """A section for placing embedding maps"""
     title = blocks.CharBlock(required=False, max_length=32, help_text="Judul Lokasi (misal: 'Lokasi Sekolah Kami')")
@@ -116,14 +117,18 @@ class MapsEmbedBlock(blocks.StructBlock):
     class Meta:
         template = "blocks/maps-section.html"
         label = "Maps Sections"
+        
 
+class BodyContentBlock(blocks.StreamBlock):
+    """group of multiple blocks for use in standard pages"""
+    # blocks for standard pages
+    hero_section = HeroBlock()
+    card_section = TitledCardSectionBlock()
+    maps_section = MapsEmbedBlock()
+    heading_sections = HeadingBlock()
+    carousel_sections = CarouselBlock()
+    
+    # school related blocks
+    academic_sections = AcademicCalendarBlock()
+    schedule_sections = ScheduleBlock()
 
-body = StreamField([
-    ('hero_section', HeroBlock()),
-    ('card_section', TitledCardSectionBlock()),
-    ('maps_section', MapsEmbedBlock()),
-    ('academic_scrions', AcademicCalendarBlock()),
-    ('heading_sections', HeadingBlock()),
-    ('schedule_sections', ScheduleBlock()),
-    ('carousel_sections', CarouselBlock())
-], use_json_field=True, blank=True, null=True)

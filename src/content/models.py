@@ -7,7 +7,7 @@ from wagtail.fields import StreamField, RichTextField
 from wagtail import blocks
 from wagtail.images.blocks import ImageChooserBlock
 
-from streams.blocks import body as bodyBlocks, CarouselBlock
+from streams.blocks import BodyContentBlock, CarouselBlock
 
 class StandardPage(Page):
     """
@@ -17,7 +17,7 @@ class StandardPage(Page):
     template = "content/standard_page.html"
     parent_pages_types = ["content.HomePage"]
 
-    body = bodyBlocks
+    body = StreamField(BodyContentBlock(),use_json_field=True, blank=True, null=True)
 
     content_panels = Page.content_panels + [
         FieldPanel('body'),
@@ -35,7 +35,7 @@ class ArticleIndexPage(Page):
     parent_pages_types = ["content.HomePage"]
     subpage_types = ['content.ArticlePage']
 
-    body = bodyBlocks
+    body = StreamField(BodyContentBlock(),use_json_field=True, blank=True, null=True)
 
     content_panels = Page.content_panels + [
         FieldPanel('body')
@@ -76,7 +76,6 @@ class ArticlePage(Page):
     parent_page_types = ['content.ArticleIndexPage']
 
     date = models.DateField("Post date")
-    introduction = models.CharField(max_length=250)
     thumbnail = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -85,13 +84,10 @@ class ArticlePage(Page):
         related_name='+'
     )
 
-    body = StreamField([
-        ('text', blocks.RichTextBlock(icon="pilcrow")),
-    ], use_json_field=True)
+    body = RichTextField(null=True,blank=True)
 
     content_panels = Page.content_panels + [
         FieldPanel('date'),
-        FieldPanel('introduction'),
         FieldPanel('thumbnail'),
         FieldPanel('body'),
     ]
@@ -108,7 +104,8 @@ class HomePage(Page):
     max_count = 1
     template = "content/home_page.html"
 
-    body = bodyBlocks
+    body = StreamField(BodyContentBlock(),use_json_field=True, blank=True, null=True)
+
 
     content_panels = Page.content_panels + [
         FieldPanel('body'),

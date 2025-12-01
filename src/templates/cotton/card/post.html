@@ -2,18 +2,28 @@
 
 <div class="card shadow-xl x outline-1 outline-base-300">
     {% comment %}  posts thumnails {% endcomment%}
-    <figure class="border-t-8 border-primary">
+    <figure class="border-t-4 border-primary">
     {% if post.thumbnail %}
-        {% image post.thumbnail fill-1000x100 as img %}
+        {% image post.thumbnail fill-1000x150 as img %}
         <img src="{{img.url}}" class="w-full"/>
     {% endif %}
     </figure>
 
-    <div class="card-body">
+    <div class="card-body space-y-3">
         <h2 class="card-title">
             <a href="{% pageurl post %}" class="hover:text-primary">{{ post.title }}</a>
         </h2>
-        <p class="text-base-content/70 ">{{ post.date }}</p>
-        <p>{{ post.introduction }}</p>
+        <div class="text-base-content/70 flex flex-row flex-wrap items-center gap-3">
+            <c-icon.calendar class="w-5 h-5" width="1.5"/> 
+            {{ post.date|date:"l, j F Y" }}
+            <c-icon.user class="w-5 h-5" width="1.5"/> 
+            <p>By {{ post.owner }}</p>
+        </div>
+        <p>{{ post.body|richtext|striptags|truncatewords:75 }}</p>
+
+        <hr class="text-base-content/30">
+        <div class="card-actions justify-end">
+            <a class="btn btn-primary" href="{% pageurl post %}">Baca Selengkapnya</a>
+        </div>
     </div>
 </div>

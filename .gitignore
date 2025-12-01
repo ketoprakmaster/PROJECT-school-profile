@@ -43,3 +43,7 @@ Thumbs.db
 # IDE-specific files
 .vscode/
 .idea/
+
+# miscellaneous
+GEMINI.md
+full_code.txt

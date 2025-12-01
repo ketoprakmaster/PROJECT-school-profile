@@ -10,11 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
-from django.core.management.utils import get_random_secret_key
-
 import os
-from decouple import  config
 from pathlib import Path
+
+from decouple import config
+from django.core.management.utils import get_random_secret_key
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     "school",
-    "library",
+    # "library",
     "content",
     "streams",
     "navigation",
@@ -64,7 +64,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -110,25 +109,33 @@ if not SECRET_KEY:
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+# # try use a configured database url if it exists
+# TODO: ngl probably write this code better
+
+DEFAULT_DB_ENGINE = 'django.db.backends.sqlite3'
+DB_ENGINE = config("DB_ENGINE", default=DEFAULT_DB_ENGINE)
+
+# use default SQLite as backends
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE" : DEFAULT_DB_ENGINE,
+        "NAME" : BASE_DIR / "db.sqlite3",
     }
 }
 
-# try use a configured database url if it exists
-DATABASE_URL = str(config("DATABASE_URL", cast=str, default=""))
-if DATABASE_URL:
-    import dj_database_url
-    DATABASES ={
-        "default": dj_database_url.config(
-            default=DATABASE_URL,
-            conn_max_age=600,
-            conn_health_checks=True,
-        )
+if all([config("DB_NAME"), config("DB_USER"), config("DB_PASSWORD")]):
+    DATABASES = {
+        "default" : {
+            "ENGINE" : DB_ENGINE,
+            "NAME" : config("DB_NAME", cast=str),
+            "USER" : config("DB_USER", cast=str),
+            "PASSWORD" : config("DB_PASSWORD", cast=str),
+            "HOST" : config("DB_HOST", default="localhost"),
+            "PORT" : config("DB_PORT", default="5432"),
+            "CONN_MAX_AGE" : config("DB_CONN_MAX_AGE", cast=int, default=600),
+            "CONN_HEALTH_CHECKS" : config("DB_CONN_HEALTH_CHECKS", cast=bool, default=True),
+        }
     }
-
 
 
 # Password validation
@@ -153,9 +160,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = "en-US"
+LANGUAGE_CODE = "id"
 TIME_ZONE = "UTC"
 USE_I18N = True
+USE_L10N = True 
 USE_TZ = True
 
 
@@ -184,7 +192,7 @@ STORAGES = {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": "django.contrib.staticfiles.storage.ManifestStaticFilesStorage",
     },
 }
 

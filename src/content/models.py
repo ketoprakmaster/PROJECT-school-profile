@@ -4,10 +4,8 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from wagtail.models import Page
 from wagtail.admin.panels import FieldPanel
 from wagtail.fields import StreamField, RichTextField
-from wagtail import blocks
-from wagtail.images.blocks import ImageChooserBlock
 
-from streams.blocks import BodyContentBlock, CarouselBlock
+from streams.blocks import BodyContentBlock
 
 class StandardPage(Page):
     """
@@ -91,6 +89,13 @@ class ArticlePage(Page):
         FieldPanel('thumbnail'),
         FieldPanel('body'),
     ]
+
+    def get_latest_posts(self):
+        return (
+            ArticlePage.objects.live()
+            .public()
+            .order_by('-date')[:5]
+        )
 
     class Meta:
         verbose_name = "Article/News Page"

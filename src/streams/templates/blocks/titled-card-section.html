@@ -1,36 +1,12 @@
-{% load wagtailimages_tags %}
+{% load cotton %}
 
-<section class="py-16 bg-base-100 odd:bg-base-200 even:bg-base-300">
+<section class="py-16 odd:bg-base-100 even:bg-base-200">
+  <c-include.heading/>
+
   <div class="container mx-auto px-6 text-center ">
-    <h2 class="text-3xl font-bold text-base-content mb-2">{{ value.title }}</h2>
-    {% if value.subtitle %}
-      <p class="text-base-content/70 mb-12">
-        {{ value.subtitle }}
-      </p>
-    {% endif %}
-
-    <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
       {% for card in value.cards %}
-        <div class="card bg-base-100 border border-base-200 shadow-xl overflow-hidden ">
-          {% if card.value.image %}
-            <figure>
-              {% image card.value.image fill-400x300 as card_img %}
-              <img
-                src="{{ card_img.url }}"
-                alt="{{ card_img.alt }}"
-                class="object-cover w-full h-48"
-              />
-            </figure>
-          {% endif %}
-          <div class="card-body {% if not card.value.image %}pt-8{% endif %} bg-base-100 ">
-            <h3 class="card-title text-xl font-bold text-base-content justify-center">
-              {{ card.value.title }}
-            </h3>
-            <p class="text-base-content/70">
-              {{ card.value.description }}
-            </p>
-          </div>
-        </div>
+        <c-blocks.basic-card :image="card.value.image" :title="card.value.title" :description="card.value.description"/>
       {% endfor %}
     </div>
   </div>

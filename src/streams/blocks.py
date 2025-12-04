@@ -1,7 +1,5 @@
 from wagtail import blocks
-from wagtail.fields import StreamField
 from wagtail.images.blocks import ImageChooserBlock
-
 
 from streams.vars import FLOWBITE_ICONS
 from school.models import AcademicCalendar
@@ -17,7 +15,7 @@ class AcademicCalendarBlock(blocks.StructBlock):
     def get_context(self, value, parent_context=None):
         context = super().get_context(value, parent_context)
 
-        qs = AcademicCalendar.objects.all()
+        qs = AcademicCalendar.objects.all() # pyright: ignore
         if value["limit"]:
             qs = qs[:value["limit"]]
 
@@ -30,9 +28,51 @@ class AcademicCalendarBlock(blocks.StructBlock):
         label = "Academic Calendar"
 
 
+class QuestionAnswerBlock(blocks.StructBlock):
+    """a singleton blocks for Question/Answer."""
+    question = blocks.CharBlock(
+        max_length=255,
+        label="Pertanyaan (FAQ Title)",
+        help_text="Judul yang akan diklik pengguna"
+    )
+
+    answer = blocks.RichTextBlock(
+        label="Jawaban (FAQ Content)",
+        features=['bold', 'italic', 'link'],
+        help_text="Isi jawaban lengkap"
+    )
+
+    class Meta:
+        icon = 'comment'
+        label = 'Item Pertanyaan & Jawaban'
+
+
+class FAQBlock(blocks.StructBlock):
+    """Block container to display FAQ list."""
+    heading = blocks.CharBlock(
+        max_length=100,
+        required=False,
+        label="Judul Bagian FAQ"
+    )
+
+    # 🌟 Menggunakan ListBlock untuk mengulang QuestionAnswerBlock 🌟
+    items = blocks.ListBlock(
+        QuestionAnswerBlock(),
+        label="Daftar Pertanyaan",
+        help_text="Tambahkan dan susun pertanyaan FAQ di sini."
+    )
+
+    class Meta:
+        icon = 'list-ul'
+        label = 'Daftar FAQ'
+        template = 'blocks/faq-sections.html'
+
+
 class HeadingBlock(blocks.StructBlock):
+    """heading block for heading sections"""
     title = blocks.CharBlock(required=False)
     subtitle = blocks.CharBlock(required=False)
+    background_image = ImageChooserBlock(required=False)
     icon_choice = blocks.ChoiceBlock(
         choices=[(value, key) for key, value in FLOWBITE_ICONS.items()],
         required=False,
@@ -57,13 +97,9 @@ class CarouselBlock(blocks.StructBlock):
         icon = "image"
         label = "Carousel"
 
-    def get_context(self, value, parent_context=None):
-        context = super().get_context(value, parent_context)
-
-        return context
 
 class ScheduleBlock(blocks.StructBlock):
-    """Schedule Block F=for Searching Schedule"""
+    """Schedule Block for Searching Schedule"""
 
     class Meta:
         template = "blocks/schedule-section.html"
@@ -111,13 +147,40 @@ class TitledCardSectionBlock(blocks.StructBlock):
 class MapsEmbedBlock(blocks.StructBlock):
     """A section for placing embedding maps"""
     title = blocks.CharBlock(required=False, max_length=32, help_text="Judul Lokasi (misal: 'Lokasi Sekolah Kami')")
-    subtitle = blocks.TextBlock(required=False, max_length=64, help_text="deskripsi text (misal: 'Temukan lokasi Sekolah kami dengan mudah dan cepat')")
+    subtitle = blocks.TextBlock(required=False, max_length=255, help_text="deskripsi text (misal: 'Temukan lokasi Sekolah kami dengan mudah dan cepat')")
     element = blocks.RawHTMLBlock(required=False, help_text="Tempat section untuk menaruh peta lokasi")
 
     class Meta:
         template = "blocks/maps-section.html"
         label = "Maps Sections"
-        
+
+
+class timelineItem(blocks.StructBlock):
+    """singular item inside timeline"""
+    title = blocks.CharBlock(required=False, max_length=32, help_text="title item")
+    date = blocks.DateBlock(required=False, max_length=10, help_text="tahun item")
+    description = blocks.RichTextBlock(required=False, help_text="deskripsi item",
+        features=["image","bold","italic","embed","link"]
+    )
+
+    class Meta:
+        icon = "form"
+        label = "Timeline Sections"
+
+
+class timelineBlocks(blocks.StructBlock):
+    """sections for displaying timeline blocks"""
+    title = blocks.CharBlock(required=False, max_length=32, help_text="timeline heading")
+    subtitle = blocks.TextBlock(required=False, max_length=255, help_text="subtitle dari timeline ")
+    items = blocks.ListBlock(
+        timelineItem(),
+        help_text = "isi dari timeline items"
+    )
+
+    class Meta:
+        template = "blocks/timeline-sections.html"
+        label = "Timeline Sections"
+
 
 class BodyContentBlock(blocks.StreamBlock):
     """group of multiple blocks for use in standard pages"""
@@ -127,8 +190,9 @@ class BodyContentBlock(blocks.StreamBlock):
     maps_section = MapsEmbedBlock()
     heading_sections = HeadingBlock()
     carousel_sections = CarouselBlock()
-    
+    faq_sections = FAQBlock()
+    timeline_sections = timelineBlocks()
+
     # school related blocks
     academic_sections = AcademicCalendarBlock()
     schedule_sections = ScheduleBlock()
-

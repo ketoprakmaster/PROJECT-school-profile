@@ -33,6 +33,7 @@ class BrandSettings(BaseGenericSetting):
     phone = models.CharField(null=True, blank= True)
     location = models.CharField(null=True, blank= True)
     schedule = models.CharField(null=True, blank= True)
+    description = models.CharField(null=True, blank= True)
 
     panels = [
         FieldPanel("logo"),
@@ -42,4 +43,5 @@ class BrandSettings(BaseGenericSetting):
         FieldPanel("phone"),
         FieldPanel("location"),
         FieldPanel("schedule"),
+        FieldPanel("description")
     ]

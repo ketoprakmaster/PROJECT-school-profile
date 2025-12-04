@@ -2,29 +2,29 @@
 {% load wagtailcore_tags cotton %}
 
 {% block content %}
-<section>
-    {% for block in page.body %}
-        {% include_block block %}
-    {% endfor %}
-</section>
 
-<section class="container mx-auto p-5 md:p-20 max-w-5xl">
+{% for block in page.body %}
+    {% include_block block %}
+{% endfor %}
 
-    <c-include.query-search query="{{ query }}"/>
 
-    <div class="space-y-8">
-        {% for post in posts %}
-            <c-card.post :post="post"></c-card.post>
-        {% empty %}
-            {% if query %}
-                <p>Tidak ada hasil untuk “{{ query }}”.</p>
-            {% else %}
-                <p>Tidak ada {{ page.title }}.</p>
-            {% endif %}
-        {% endfor %}
+<section class="odd:bg-base-100 even:bg-base-200">
+    <div class="container mx-auto p-5 md:p-20 max-w-5xl">
+        <c-include.query-search query="{{ query }}"/>
+
+        <div class="space-y-8">
+            {% for post in posts %}
+                <c-card.post :post="post"></c-card.post>
+            {% empty %}
+                {% if query %}
+                    <p>Tidak ada hasil untuk “{{ query }}”.</p>
+                {% else %}
+                    <p>Tidak ada {{ page.title }}.</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <c-include.pagination :posts="posts" query="{{ query }}"/>
     </div>
-
-    <c-include.pagination :posts="posts" query="{{ query }}"></c-include.pagination>
-
 </section>
 {% endblock content %}

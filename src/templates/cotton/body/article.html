@@ -1,0 +1,24 @@
+{% load wagtailcore_tags breadcrumbs_tags %}
+
+<main class="md:col-span-2">
+    <article class="max-w-4xl space-y-5">
+        {# load breadcrumbs navigation #}
+        {% breadcrumbs %}
+
+        <h1 class="text-4xl md:text-5xl font-bold text-base-content">{{ page.title }}</h1>
+        <div class="text-base-content/70 flex flex-row flex-wrap items-center gap-3">
+            <c-icon.calendar class="w-5 h-5" width="1.5"/>
+            {{ page.date|date:"l, j F Y" }}
+            <c-icon.user class="w-5 h-5" width="1.5"/>
+            <p>By {{ page.owner }}</p>
+        </div>
+        <hr class="text-base-content/20">
+    </article>
+
+    <div class="prose max-w-4xl mb-10">
+        {{ page.body|richtext }}
+    </div>
+
+    <hr class="text-base-content/20">
+    <c-include.share article_url="{{ page.full_url }}" article_title="{{ page.title }}"/>
+</main>

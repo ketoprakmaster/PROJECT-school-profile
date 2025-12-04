@@ -1,24 +1,24 @@
 {% load wagtailimages_tags %}
 
 <section>
-    <div class="carousel w-full">
-      {% for img in self.images %}
-        {% with idx=forloop.counter %}
-        <div id="slide{{ idx }}" class="carousel-item relative w-full">
+  <div class="carousel w-full">
+    {% for img in self.images %}
+      {% with idx=forloop.counter %}
+      <div id="slide{{ idx }}" class="carousel-item relative w-full">
 
-          {% image img fill-1600x400 as rendition %}
-          <img src="{{ rendition.url }}" class="w-full" style="height: {{ height }}px;">
+        {% image img fill-1000x200 as rendition %}
+        <img src="{{ rendition.url }}" class="w-full" style="height: {{ height }}px;">
 
-          <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-            <a href="#slide{% if forloop.first %}{{ self.images|length }}{% else %}{{ forloop.counter|add:'-1' }}{% endif %}"
-               class="btn btn-circle">❮</a>
 
-            <a href="#slide{% if forloop.last %}1{% else %}{{ forloop.counter|add:'1' }}{% endif %}"
-               class="btn btn-circle">❯</a>
-          </div>
-
+        <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+          <a href="#slide{% if forloop.first %}{{ self.images|length }}{% else %}{{ forloop.counter|add:'-1' }}{% endif %}"
+             class="btn btn-circle">❮</a>
+          <a href="#slide{% if forloop.last %}1{% else %}{{ forloop.counter|add:'1' }}{% endif %}"
+             class="btn btn-circle">❯</a>
         </div>
-        {% endwith %}
-      {% endfor %}
-    </div>
+
+      </div>
+      {% endwith %}
+    {% endfor %}
+  </div>
 </section>

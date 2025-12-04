@@ -1,0 +1,36 @@
+{% load cotton wagtailcore_tags %}
+
+<section class="odd:bg-base-100 even:bg-base-200 p-5 md:p-10 max-w-4xl mx-auto">
+    <c-include.heading></c-include.heading>
+
+    {% if self.items %}
+    <ul class="timeline timeline-snap-icon timeline-compact timeline-vertical ">
+    {% for item in self.items %}
+        <li>
+            {% if not forloop.first %} <hr class="bg-success" /> {% endif %}
+            <div class="timeline-middle">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    class="text-success h-5 w-5"
+                >
+                    <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                    clip-rule="evenodd"
+                    />
+                </svg>
+            </div>
+
+        <div class="timeline-end mb-7 ml-7">
+            <time class="text-lg font-light italic"> {{ item.date|date:"l, j F Y" }}</time>
+            <div class="text-lg font-bold"> {{ item.title }}</div>
+            <p class="text-base-content/75 prose ">{{ item.description|richtext }}</p>
+        </div>
+        <hr class="bg-success"/>
+      </li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+</section>

@@ -1,0 +1,16 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+
+<div class="space-y-4 my-5 p-5 rounded shadow-md outline-base-300 outline-1 mx-auto max-w-96">
+    <h2 class="text-xl font-bold text-base-content">{{ page.get_parent.specific.title }} Terbaru</h2>
+    <div class="grid gap-4">
+        {% for post in page.get_latest_posts %}
+            <hr class="text-base-content/20">
+            <a href="{{post.url}}" class="hover:text-primary"> {{post.title}}
+            <span class="text-base-content/50"> {{ post.date|date:"j M Y" }}
+            </span></a>
+        {% empty %}
+            <p class="opacity-70">Belum ada postingan.</p>
+        {% endfor %}
+    </div>
+</div>

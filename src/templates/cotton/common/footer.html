@@ -2,8 +2,8 @@
 
 {% main_menu 'footer' as items %}
 
-<footer class=" text-base-content/80 bg-base-300 odd:bg-base-200 even:bg-base-300">
-  <div class="container mx-auto max-w-6xl px-6 py-12 text-xs sm:text-sm md:text-base">
+<footer class=" text-base-content/80 bg-base-300">
+  <div class="container mx-auto max-w-6xl px-6 py-12 text-xs sm:text-sm md:text-md">
 
     <!-- Main Footer Grid -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -18,9 +18,10 @@
         </div>
 
         <p class="text-base-content/60 mb-4">
-          Membangun generasi unggul dengan pendidikan berkualitas.
+            {{ settings.global.BrandSettings.description|truncatechars:255 }}
         </p>
 
+        {# TODO: refactor the footer sections to dealt with icons #}
         <!-- Social Links -->
         <div class="flex space-x-4 text-base-content/60">
           {% if settings.global.SocialMediaSettings.facebook %}

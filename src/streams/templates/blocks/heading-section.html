@@ -1,21 +1,29 @@
-{% load cotton %}
-
+{% load cotton wagtailimages_tags %}
 
 <c-vars
     class="w-20 h-20 mx-auto"
-    bg="bg-base-200"
+    color="{% if value.background_image %} text-white {% else %} text-base-content/80 {% endif %}"
     title="{{ value.title }}"
     text="{{ value.subtitle }}"
-    path=""
-></c-vars>
+/>
 
-<section class="{{ bg }}">
-    <div class="flex flex-col justify-center max-w-6xl gap-5 p-10 text-base-content mx-auto">
-        <svg class="{{ class }}" fill="none" stroke="1}" viewBox="0 0 24 24">
+<section class="relative">
+    {% if value.background_image %}
+        {% image value.background_image fill-1000x200 as bg_img %}
+        <img
+            src="{{ bg_img.url }}"
+            alt="Background image for {{ value.title }}"
+            class="absolute inset-0 w-full h-full object-cover"
+        >
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+    {% endif %}
+
+    <div class="relative z-10 flex flex-col justify-center text-center max-w-6xl gap-5 p-10  mx-auto {{ color }}">
+        <svg class="{{ class }} " fill="none" stroke="1}" viewBox="0 0 24 24">
             {{ value.icon_choice|safe }}
         </svg>
 
-        <h2 class="font-semibold text-xl sm:text-2xl md:text-4xl mx-auto">{{ title }}</h2>
-        <p class="text-base-content/50 text-sm sm:text-md md:text-lg mx-auto">{{ text }}</p>
+        <h2 class="font-semibold text-xl sm:text-2xl md:text-2xl {{ color }}">{{ title }}</h2>
+        <p class=" text-sm sm:text-md md:text-md {{ color }}">{{ text }}</p>
     </div>
 </section>

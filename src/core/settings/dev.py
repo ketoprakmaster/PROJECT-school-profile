@@ -1,19 +1,13 @@
 from .base import *
 
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-if DEBUG:
-    CSRF_TRUSTED_ORIGINS = [
-        "https://helvetica-wsl.noodlefish-hen.ts.net"
-    ]
-
 
 # SECURITY WARNING: define the correct hosts in production!
 ALLOWED_HOSTS = ["*"]
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# SECURITY WARNING: generate the apropriate secrets in PROD!
+SECRET_KEY = "86d15f29-6235-402d-850a-f10490e88e1f-INSECURE!"
 
 try:
     from .local import *

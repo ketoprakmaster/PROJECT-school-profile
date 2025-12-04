@@ -1,4 +1,3 @@
-import os
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth import get_user_model
 from decouple import config
@@ -21,7 +20,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         User = get_user_model()
-        
+
         if not all([USERNAME, EMAIL, PASSWORD]):
             raise CommandError(
                 self.style.ERROR(
@@ -39,7 +38,7 @@ class Command(BaseCommand):
 
         try:
             User.objects.create_superuser(USERNAME, EMAIL, PASSWORD)
-            
+
             self.stdout.write(
                 self.style.SUCCESS(f'✅ Successfully created superuser: "{USERNAME}"')
             )
@@ -52,3 +51,4 @@ class Command(BaseCommand):
 
 
 # pyright: reportAssignmentType=false
+# pyright: reportAttributeAccessIssue=false

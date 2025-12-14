@@ -13,7 +13,6 @@ class StandardPage(Page):
     Perfect for pages like 'About Us', 'Vision & Mission', etc.
     """
     template = "content/standard_page.html"
-    parent_pages_types = ["content.HomePage"]
 
     body = StreamField(BodyContentBlock(),use_json_field=True, blank=True, null=True)
 
@@ -30,7 +29,7 @@ class ArticleIndexPage(Page):
     Page to list all its children ArticlePages.
     """
     template = "content/article_index_page.html"
-    parent_pages_types = ["content.HomePage"]
+    parent_pages_types = ["content.StandardPage"]
     subpage_types = ['content.ArticlePage']
 
     body = StreamField(BodyContentBlock(),use_json_field=True, blank=True, null=True)
@@ -99,23 +98,3 @@ class ArticlePage(Page):
 
     class Meta:
         verbose_name = "Article/News Page"
-
-
-class HomePage(Page):
-    """
-    The main home page model, built using a flexible StreamField
-    for composing different sections.
-    """
-    max_count = 1
-    template = "content/home_page.html"
-
-    body = StreamField(BodyContentBlock(),use_json_field=True, blank=True, null=True)
-
-
-    content_panels = Page.content_panels + [
-        FieldPanel('body'),
-    ]
-
-    class Meta:
-        verbose_name = "Home Page"
-        verbose_name_plural = "Home Pages"

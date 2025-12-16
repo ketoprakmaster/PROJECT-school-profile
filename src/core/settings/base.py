@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from decouple import config
 
 # from core.configs.email import *
-from core.configs.db import DATABASES
+from core.configs.db import DATABASES, DEFAULT_ENGINE
 from core.configs.paths import BASE_DIR, PROJECT_DIR
 from core.configs.storages import STORAGES, STATIC_URL, MEDIA_URL
 

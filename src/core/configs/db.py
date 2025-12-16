@@ -28,9 +28,6 @@ if DB_NAME and DB_USER and DB_PASSWORD:
         }
     }
 else:
-    DATABASES = {
-        "default": {
-            "ENGINE": DEFAULT_ENGINE,
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
+    # set the DATABASE to none
+    # so it can be handled differently between respective settings (prod or dev)
+    DATABASES = None

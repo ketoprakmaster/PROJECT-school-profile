@@ -33,6 +33,10 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 if LOGGING:
     DJANGO_LOGGING = LOGGING
 
+# raise error if DB hasn't been configured
+if not DATABASES:
+    raise Exception("DATABASE hasn't been configured yet!")
+
 try:
     from .local import *
 except ImportError:

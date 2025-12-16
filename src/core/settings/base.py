@@ -15,6 +15,7 @@ from decouple import config
 # from core.configs.email import *
 from core.configs.db import DATABASES
 from core.configs.paths import BASE_DIR, PROJECT_DIR
+from core.configs.storages import STORAGES, STATIC_URL, MEDIA_URL
 
 # Application definition
 
@@ -44,7 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     "school",
-    # "library",
+    "library",
     "content",
     "streams",
     "navigation",
@@ -131,21 +132,9 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = BASE_DIR / "static"
-STATIC_URL = "/static/"
 
 MEDIA_ROOT = BASE_DIR / "media"
-MEDIA_URL = "/media/"
 
-# Default storage settings
-# See https://docs.djangoproject.com/en/5.2/ref/settings/#std-setting-STORAGES
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.ManifestStaticFilesStorage",
-    },
-}
 
 # Django sets a maximum of 1000 fields per form by default, but particularly complex page models
 # can exceed this limit within Wagtail's page editor.
@@ -172,3 +161,9 @@ WAGTAILADMIN_BASE_URL = config("WAGTAILADMIN_BASE_URL", default="https://example
 # if untrusted users are allowed to upload files -
 # see https://docs.wagtail.org/en/stable/advanced_topics/deploying.html#user-uploaded-files
 WAGTAILDOCS_EXTENSIONS = ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'txt', 'xlsx', 'zip']
+
+WAGTAILDOCS_CONTENT_TYPES = {
+    'pdf': ['application/pdf', 'application/x-pdf'],
+}
+
+WAGTAILDOCS_DOCUMENT_MODEL = 'library.LibraryResource'

@@ -14,7 +14,7 @@ urlpatterns = [
     path("django-cms/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
 
-    path("sekolah/", include("school.urls")),
+    path("api/school/", include("school.urls")),
     # path("library/", include("library.urls")),
 
 

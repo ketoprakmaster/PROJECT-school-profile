@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% load static wagtailcore_tags cotton wagtailimages_tags %}
+
+{% block content %}
+
+{% for block in page.body %}
+    {% include_block block %}
+{% endfor %}
+
+<section class="p-5 space-y-6 max-w-6xl mx-auto mb-10">
+    <c-include.query_search/>
+
+    <hr class="border-base-content/20">
+
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for resource in resources %}
+        <div class="card card-side bg-base-100 shadow-lg overflow-hidden outline-2 outline-base-content/10">
+            <figure class="w-40 shrink-0 bg-base-200 min-h-60">
+                {% if resource.cover_image %}
+                    {% image resource.cover_image fill-160x256 as img %}
+                    <img
+                        src="{{ img.url }}"
+                        alt="{{ img.alt }}"
+                        class="object-cover w-full h-full"
+                    />
+                {% else %}
+                    <div class="flex items-center justify-center w-full h-full text-md text-base-content/50">
+                        No cover
+                    </div>
+                {% endif %}
+            </figure>
+
+            <div class="card-body">
+                <h2 class="card-title">
+                    {{ resource.title }}
+                </h2>
+
+                <div class="text-sm space-y-1">
+                    <p>
+                        <strong>Author:</strong>
+                        {{ resource.author|default:"Unknown" }}
+                    </p>
+
+                    {% if resource.subject %}
+                    <p>
+                        <strong>Subject:</strong>
+                        {{ resource.subject.name }}
+                    </p>
+                    {% endif %}
+
+                    {% if resource.date_published %}
+                    <p>
+                        <strong>Published:</strong>
+                        {{ resource.date_published|date:"Y" }}
+                    </p>
+                    {% endif %}
+                </div>
+
+                <div class="card-actions justify-end mt-auto text-xs">
+                    <a
+                        href="{{ resource.url }}"
+                        class="btn btn-primary btn-sm"
+                        download
+                    >
+                        Download {{ resource.file_extension|upper }}
+                        ({{ resource.file.size|filesizeformat }})
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-span-full text-center text-base-content/60 py-10">
+            {% if query %}
+            <p>Tidak ada hasil untuk “{{ query }}”.</p>
+            {% else %}
+            <p>Tidak ada {{ page.title }}.</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <c-include.pagination :posts="resources"/>
+</section>
+
+{% endblock %}

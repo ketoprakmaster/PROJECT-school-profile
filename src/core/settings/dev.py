@@ -19,6 +19,13 @@ if not DATABASES:
             }
         }
 
+# override the storages for static assets to be FileSystemStorage
+# recomended for tailwind dynamic compiling in development
+STORAGES["staticfiles"] = {
+    "BACKEND" : "django.contrib.staticfiles.storage.StaticFilesStorage"
+}
+
+
 try:
     from .local import *
 except ImportError:

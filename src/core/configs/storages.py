@@ -1,10 +1,10 @@
 from decouple import config
-from storages.backends.s3boto3 import S3Boto3Storage
+from storages.backends.s3boto3 import S3Boto3Storage, S3ManifestStaticStorage
 
 # Default storage settings
 # See https://docs.djangoproject.com/en/5.2/ref/settings/#std-setting-STORAGES
 
-class StaticStorage(S3Boto3Storage):
+class StaticStorage(S3ManifestStaticStorage):
     location = 'static'
     default_acl = 'public-read'
     querystring_auth = False  # Static files should have clean URLs for caching
@@ -60,11 +60,3 @@ else:
             "BACKEND": "django.contrib.staticfiles.storage.ManifestStaticFilesStorage",
         },
     }
-
-# URL configuration
-if USE_S3 and S3_CUSTOM_DOMAIN:
-    STATIC_URL = f"{S3_CUSTOM_DOMAIN}/static/"
-    MEDIA_URL = f"{S3_CUSTOM_DOMAIN}/media/"
-else:
-    STATIC_URL = "/static/"
-    MEDIA_URL = "/media/"

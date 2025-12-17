@@ -15,7 +15,7 @@ from decouple import config
 # from core.configs.email import *
 from core.configs.db import DATABASES, DEFAULT_ENGINE
 from core.configs.paths import BASE_DIR, PROJECT_DIR
-from core.configs.storages import STORAGES, STATIC_URL, MEDIA_URL
+from core.configs.storages import STORAGES
 
 # Application definition
 
@@ -132,9 +132,10 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = BASE_DIR / "static"
+STATIC_URL = "/static/"
 
 MEDIA_ROOT = BASE_DIR / "media"
-
+MEDIA_URL = "/media/"
 
 # Django sets a maximum of 1000 fields per form by default, but particularly complex page models
 # can exceed this limit within Wagtail's page editor.
@@ -166,4 +167,4 @@ WAGTAILDOCS_CONTENT_TYPES = {
     'pdf': ['application/pdf', 'application/x-pdf'],
 }
 
-WAGTAILDOCS_DOCUMENT_MODEL = 'library.LibraryResource'
+WAGTAILDOCS_DOCUMENT_MODEL = 'library.BookResource'

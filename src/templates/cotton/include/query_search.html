@@ -3,7 +3,7 @@
         type="text"
         name="query"
         placeholder="Cari…"
-        value="{{ query }}"
+        value="{{ query|default:'' }}"
         class="input input-bordered flex-1"
     >
     <button class="btn btn-primary">Cari</button>

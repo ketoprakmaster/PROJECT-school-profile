@@ -20,6 +20,8 @@ from core.configs.storages import STORAGES
 # Application definition
 
 INSTALLED_APPS = [
+    # required for db connection to postgres
+    "django.contrib.postgres",
     "wagtail.contrib.settings",
     "django_cotton",
 

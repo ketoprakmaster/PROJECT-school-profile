@@ -2,8 +2,6 @@ services:
   # 1. Django/Wagtail Application Service
   web:
     build: .
-    ports:
-      - "8000:8000"
     volumes:
       - static_volume:/app/src/static
       - media_volume:/app/src/media

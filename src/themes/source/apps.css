@@ -4,3 +4,10 @@
 @plugin "daisyui" {
   themes: light --default, dark;
 }
+
+/* all templates html in app specific folders */
+@source "./src/**/templates/**/*.html";
+@source "./src/**/templates/*.html";
+/* all templates html in BASE_DIR */
+@source "./src/templates/**/*.html";
+@source "./src/templates/*.html";

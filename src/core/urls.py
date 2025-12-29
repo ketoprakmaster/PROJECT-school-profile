@@ -15,7 +15,7 @@ urlpatterns = [
     path("documents/", include(wagtaildocs_urls)),
 
     path("api/school/", include("school.urls")),
-    # path("library/", include("library.urls")),
+    path("api/chat", include("chatbot.urls")),
 
 
     # Wagtail's router will handle all other page URLs

@@ -10,6 +10,7 @@ dependencies = [
     "gunicorn>=23.0.0",
     "psycopg[binary]>=3.2.12",
     "python-decouple>=3.8",
+    "rapidfuzz>=3.14.3",
     "wagtail>=7.1.2",
 ]
 

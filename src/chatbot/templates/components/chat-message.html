@@ -1,0 +1,15 @@
+<div class="chat chat-end animate-in fade-in slide-in-from-right-2">
+    <div class="chat-header opacity-50 text-xs mb-1">You</div>
+    <div class="chat-bubble chat-bubble-secondary">{{ user }}</div>
+</div>
+
+<div class="chat chat-start animate-in fade-in slide-in-from-left-2">
+    <div class="chat-header opacity-50 text-xs mb-1">Assistant</div>
+    <div class="chat-bubble chat-bubble-primary shadow-sm">
+        {{ answer|linebreaksbr }}
+    </div>
+</div>
+
+<script>
+    document.getElementById('chat-input').value = '';
+</script>

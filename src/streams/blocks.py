@@ -2,31 +2,7 @@ from wagtail import blocks
 from wagtail.images.blocks import ImageChooserBlock
 
 from streams.vars import FLOWBITE_ICONS
-from school.models import AcademicCalendar
-
-
-class AcademicCalendarBlock(blocks.StructBlock):
-    """block for the academic calendars"""
-    title = blocks.CharBlock(default="Jadwal Kegiatan Akademik", required=False)
-    subtitle = blocks.CharBlock(required=False)
-    limit = blocks.IntegerBlock(default=50, required=False)
-    show_description = blocks.BooleanBlock(default=False, required=False)
-
-    def get_context(self, value, parent_context=None):
-        context = super().get_context(value, parent_context)
-
-        qs = AcademicCalendar.objects.all() # pyright: ignore
-        if value["limit"]:
-            qs = qs[:value["limit"]]
-
-        context["events"] = qs
-        return context
-
-    class Meta:
-        template = "blocks/calendar-section.html"
-        icon = "date"
-        label = "Academic Calendar"
-
+from school.blocks import AcademicCalendarBlock, ScheduleBlock
 
 class QuestionAnswerBlock(blocks.StructBlock):
     """a singleton blocks for Question/Answer."""
@@ -96,15 +72,6 @@ class CarouselBlock(blocks.StructBlock):
         template = "blocks/carousel-section.html"
         icon = "image"
         label = "Carousel"
-
-
-class ScheduleBlock(blocks.StructBlock):
-    """Schedule Block for Searching Schedule"""
-
-    class Meta:
-        template = "blocks/schedule-section.html"
-        icon = "date"
-        label = "schedule search"
 
 
 class HeroBlock(blocks.StructBlock):

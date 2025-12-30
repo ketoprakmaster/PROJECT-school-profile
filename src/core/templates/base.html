@@ -35,9 +35,11 @@
 </head>
 
 <body class="min-w-[350px]">
+    {% wagtailuserbar %}
+
     <!-- Navbar -->
     {% block navbar %}
-        <c-common.header/>
+        <c-base-header/>
     {% endblock %}
 
     <!-- Page content here -->
@@ -48,7 +50,7 @@
     {% endblock %}
 
     <!--Page Footer Here-->
-    <c-common.footer/>
+    <c-base-footer/>
 
     <c-chat-element/>
 </body>

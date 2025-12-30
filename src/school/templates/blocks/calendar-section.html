@@ -1,0 +1,61 @@
+{% load cotton %}
+
+<section class="p-5 min-w-[400px] odd:bg-base-100 even:bg-base-200">
+    <div class="max-w-5xl mx-auto my-5 md:my-10">
+        <c-card.table title="{{ value.title }}" subtitle="{{ value.subtitle }}">
+
+            <!-- Inside slot: our table -->
+            <div class="overflow-x-auto">
+                <table class="table table-zebra text-base-content text-sm sm:text-md">
+                    <thead class="bg-primary text-primary-content">
+                        <tr>
+                            <th class="text-center font-semibold">Kegiatan</th>
+                            <th class="text-center font-semibold">Tanggal</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for event in events %}
+                        <tr class="hover">
+                            <td class="flex items-center gap-3 px-4 py-2.5">
+                                <c-icon.calendar class="w-5 h-5"></c-icon.calendar>
+                                {{ event.event_name }}
+                            </td>
+
+                            <td class="px-4 py-2.5">
+                                <span>{{ event.event_start|date:"d F" }}</span>
+
+                                {% if event.event_end %}
+                                    - <span class="text-error">{{ event.event_end|date:"d F Y" }}</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Footer -->
+            <div class="p-4 border-t border-base-300 bg-base-200 text-sm text-base-content/70 flex flex-col sm:flex-row justify-between gap-3">
+
+                <div class="flex items-center gap-2">
+                    <c-icon.calendar class="w-5 h-5 text-primary/80"></c-icon.calendar>
+                    Tahun Ajaran:
+                    <span class="ml-1 font-medium text-base-content">
+                        {{ value.date_start }}
+                    </span>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <c-icon.calendar class="w-5 h-5 text-error/80"></c-icon.calendar>
+                    Berakhir:
+                    <span class="ml-1 font-medium text-error">
+                        {{ value.date_end }}
+                    </span>
+                </div>
+
+            </div>
+
+        </c-card.table>
+    </div>
+</section>

@@ -1,0 +1,69 @@
+{% load cotton %}
+
+
+<section class="sm:p-10 odd:bg-base-100 even:bg-base-200">
+    <div class="gap-5 p-5 lg:flex flex-row">
+
+        <div class="space-y-3 lg:max-w-96 mb-5">
+            <c-card.base>
+                <form hx-get="{% url 'school:schedule-search' %}"
+                    hx-target="#search-result"
+                    hx-swap="outerHTML"
+                    hx-indicator="#loading-indicator"
+                    class="space-y-4"
+                    role="search">
+
+                    <!-- Header -->
+                    <div class="flex items-center gap-2">
+                        <c-icon.search class="w-6 h-6 text-primary"></c-icon.search>
+                        <h3 class="text-lg font-semibold text-base-content">Cari Jadwal Pelajaran</h3>
+                    </div>
+
+                    <!-- Input -->
+                    <label class="form-control w-full space-y-4">
+                        <div class="label">
+                            <span class="label-text font-medium text-base-content">Masukkan Kelas (Cth: 4A) atau Nama Guru</span>
+                        </div>
+
+                        <input type="text"
+                            name="query"
+                            placeholder="{{ placeholder }}"
+                            class="input input-bordered w-full input-sm focus:border-primary"
+                            required>
+                    </label>
+
+                    <!-- Button -->
+                    <button type="submit" class="btn btn-primary w-full btn-sm mt-3">
+                        <c-icon.search class="w-4 h-4 text-white"></c-icon.search>
+                        {{ button }}
+                    </button>
+
+                </form>
+            </c-card.base>
+
+            <c-card.base>
+                <div class="flex items-center gap-2">
+                    <c-icon.book class="w-6 h-6"></c-icon.book>
+                    <h3 class="text-base font-semibold">Panduan Pencarian</h3>
+                </div>
+
+                <ol class="space-y-3">
+                    <li class="flex items-center gap-3">
+                        <span class="badge badge-primary badge-lg">1</span>
+                        <p>Masukkan kelas (contoh: 1A, 2B, 3A) atau nama guru</p>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="badge badge-primary badge-lg">2</span>
+                        <p>Klik tombol "Cari Jadwal" atau tekan Enter</p>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="badge badge-primary badge-lg">3</span>
+                        <p>Hasil pencarian akan ditampilkan dalam bentuk tabel</p>
+                    </li>
+                </ol>
+            </c-card.base>
+        </div>
+
+        <c-schedule-empty />
+    </div>
+</section>

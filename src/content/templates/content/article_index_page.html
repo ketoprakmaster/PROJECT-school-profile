@@ -14,7 +14,7 @@
 
         <div class="space-y-8">
             {% for post in posts %}
-                <c-card.post :post="post"></c-card.post>
+                <c-post :post="post"></c-post>
             {% empty %}
                 {% if query %}
                     <p>Tidak ada hasil untuk “{{ query }}”.</p>

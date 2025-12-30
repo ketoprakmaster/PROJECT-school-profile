@@ -22,9 +22,9 @@ dist/
 build/
 
 # Static and media files
-.src/static/
-.src/media/
-.src/themes/static
+src/static/
+src/media/
+src/themes/static/
 
 # Documentation
 GEMINI.md

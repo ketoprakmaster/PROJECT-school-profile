@@ -18,4 +18,4 @@ def schedule_search(request):
         "results": schedules
     }
 
-    return render(request, "cotton/schedule/results.html", context)
+    return render(request, "components/schedule-results.html", context)

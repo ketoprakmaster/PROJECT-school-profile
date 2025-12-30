@@ -2,26 +2,28 @@
 
 
 
-<section class="max-w-4xl mx-auto p-5 sm:p-10">
+<section class="p-5 sm:p-10 odd:bg-base-100 even:bg-base-200 py-10">
 
     <c-include.heading title="{{ value.heading }} "/>
 
-    <div class=" join join-vertical ">
-        {% for item in value.items %}
-            <div class="join-item collapse collapse-plus bg-base-200 border-base-content/15 border">
-                {# Header Accordion (Pertanyaan) #}
-                <input type="radio" name="faq_accordion" checked="{% if forloop.first %}checked{% endif %}" />
-                <div class="collapse-title text-md font-semibold text-base-content">
-                    {{ item.question }}
-                </div>
+    <div class="max-w-4xl mx-auto">
+        <div class=" join join-vertical ">
+            {% for item in value.items %}
+                <div class="join-item collapse collapse-plus bg-base-200 border-base-content/15 border">
+                    {# Header Accordion (Pertanyaan) #}
+                    <input type="radio" name="faq_accordion" checked="{% if forloop.first %}checked{% endif %}" />
+                    <div class="collapse-title text-lg font-semibold text-base-content">
+                        {{ item.question }}
+                    </div>
 
-                {# Konten Accordion (Jawaban) #}
-                <div class="collapse-content">
-                    <div class="prose max-w-none text-base-content/80">
-                        {{ item.answer }}
+                    {# Konten Accordion (Jawaban) #}
+                    <div class="collapse-content">
+                        <div class="prose max-w-none text-base-content/80">
+                            {{ item.answer }}
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 </section>

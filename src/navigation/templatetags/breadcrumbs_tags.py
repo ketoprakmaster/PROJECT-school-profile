@@ -2,7 +2,7 @@ from django import template
 
 register = template.Library()
 
-@register.inclusion_tag('cotton/include/breadcrumbs.html', takes_context=True)
+@register.inclusion_tag('components/include/breadcrumbs.html', takes_context=True)
 def breadcrumbs(context):
     page = context.get('page')
     if page:

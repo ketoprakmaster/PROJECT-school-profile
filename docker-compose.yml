@@ -1,10 +1,13 @@
 services:
   # 1. Django/Wagtail Application Service
   web:
-    build: .
+    # build or pull from existing images
+    # build: .
+    image: ghcr.io/ketoprakmaster/project-school-profile:main
     volumes:
       - static_volume:/app/src/static
       - media_volume:/app/src/media
+    # either use .env files or define it in docker compose.
     env_file:
       - ./docker/.env.example
     environment:

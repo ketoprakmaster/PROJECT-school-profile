@@ -11,8 +11,15 @@ EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast=bool, default=False)  # Use MAIL_PO
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
 
-ADMIN_USER_NAME=config("ADMIN_USER_NAME", default="Admin user")
-ADMIN_USER_EMAIL=config("ADMIN_USER_EMAIL", default=None)
+try:
+    # configure the superadmin to send and receive email
+    ADMINS = [
+        (config("DJANGO_SUPERUSER_USERNAME"), config("DJANGO_SUPERUSER_EMAIL"))
+    ]
+except Exception as e:
+    print(f"admins emails not properly configured\nReasons: {e}")
+
+
 
 if all([EMAIL_HOST, EMAIL_HOST_PASSWORD, EMAIL_HOST_USER]):
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

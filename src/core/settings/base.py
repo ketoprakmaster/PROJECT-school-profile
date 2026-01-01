@@ -16,6 +16,7 @@ from decouple import config
 from core.configs.db import DATABASES, DEFAULT_ENGINE
 from core.configs.paths import BASE_DIR, PROJECT_DIR
 from core.configs.storages import STORAGES
+from core.configs.email import *
 
 # Application definition
 
@@ -170,6 +171,7 @@ WAGTAILDOCS_CONTENT_TYPES = {
     'pdf': ['application/pdf', 'application/x-pdf'],
 }
 
-
+# configure the django-cotton components templates
+# default: COTTON_DIR = 'cotton'
 COTTON_DIR = 'components'
 COTTON_SNAKE_CASED_NAMES = False

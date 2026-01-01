@@ -26,15 +26,65 @@ You can run this project in two ways: using Docker or setting it up manually.
 
 This is the easiest way to get the project up and running.
 
-1.  **Clone the repository:**
+  
+1. **Define the Docker Compose File:**
     ```bash
-    git clone <repository-url>
-    cd <repository-name>
+    services:
+    # 1. Django/Wagtail Application Service
+    web:
+      # build or pull from existing images
+      # build: .
+      image: ghcr.io/ketoprakmaster/project-school-profile:main
+      volumes:
+        - static_volume:/app/src/static
+        - media_volume:/app/src/media
+      # either use .env files or define it in docker compose.
+      env_file:
+        - ./docker/.env.example
+      environment:
+        - DJANGO_SUPERUSER_USERNAME = admin
+        - DJANGO_SUPERUSER_EMAIL = admin@localhost.com
+        - DJANGO_SUPERUSER_PASSWORD = yourpassword
+      depends_on:
+        db:
+          condition: service_healthy
+      command: sh -c "python -m gunicorn core.wsgi:application --bind 0.0.0.0:8000"
+  
+    # 2. PostgreSQL Database Service
+    db:
+      image: postgres:18-alpine
+      volumes:
+        - postgres_data:/var/lib/postgresql/data/
+      env_file:
+        - ./docker/.env.example
+      healthcheck:
+        test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+        interval: 5s
+        timeout: 5s
+        retries: 5
+  
+    # 3. Nginx Reverse Proxy Service
+    nginx:
+      image: nginx:stable-alpine
+      ports:
+        - "80:80"
+      volumes:
+        - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+        - static_volume:/app/static
+        - media_volume:/app/media
+      depends_on:
+        - web
+  
+    # Define the volumes used by the services
+    volumes:
+        postgres_data:
+        static_volume:
+        media_volume:
     ```
 
-1.  **Build and run the containers:**
+1.  **Pull and run the containers:**
     ```bash
-    docker-compose up --build -d
+    docker-compose up
     ```
 
 1.  **Access the application:**

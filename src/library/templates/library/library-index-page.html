@@ -9,12 +9,10 @@
 {% endfor %}
 
 <section class="p-5 space-y-6 max-w-6xl mx-auto mb-10">
-    <c-include.query_search/>
+    <c-include.query-search/>
 
     <hr class="border-base-content/20">
-
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {% for resource in resources %}
         <div class="card card-side bg-base-100 shadow-lg overflow-hidden outline-2 outline-base-content/10">
             <figure class="w-40 shrink-0 bg-base-200 min-h-60">
@@ -39,7 +37,7 @@
 
                 <div class="text-sm space-y-1">
                     <p>
-                        <strong>Author:</strong>
+                        <strong>Pengarang : </strong>
                         {{ resource.author|default:"Unknown" }}
                     </p>
 
@@ -52,7 +50,7 @@
 
                     {% if resource.date_published %}
                     <p>
-                        <strong>Published:</strong>
+                        <strong>Diterbitkan : </strong>
                         {{ resource.date_published|date:"Y" }}
                     </p>
                     {% endif %}
@@ -64,8 +62,8 @@
                         class="btn btn-primary btn-sm"
                         download
                     >
-                        Download {{ resource.file_extension|upper }}
-                        ({{ resource.file.size|filesizeformat }})
+                        Download {{ resource.file.file_extension|upper }}
+                        ({{ resource.file.file.size|filesizeformat }})
                     </a>
                 </div>
             </div>

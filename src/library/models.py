@@ -1,31 +1,47 @@
-from wagtail.documents.models import AbstractDocument, Document
 from wagtail.admin.panels import FieldPanel
-from wagtail.images import get_image_model
 from wagtail.models import Page
 from wagtail.fields import StreamField
+from wagtail.snippets.models import register_snippet
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db import models
 
 from streams.blocks import BodyContentBlock
 
-class BookResource(AbstractDocument):
-    author = models.CharField(max_length=255, blank=True)
-    date_published = models.DateField(blank=True, null=True)
-
-    cover_image = models.ForeignKey(
-        get_image_model(),
+class BookResource(models.Model):
+    file = models.ForeignKey(
+        'wagtaildocs.Document',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+'
     )
-
-    admin_form_fields = Document.admin_form_fields + (
-        'author',
-        'date_published',
-        'cover_image',
+    cover_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
     )
+    date_published = models.DateField(blank=True, null=True)
+    author = models.CharField(max_length=255, blank=True)
+
+    panels = [
+        FieldPanel('author'),
+        FieldPanel('file'),
+        FieldPanel('date_published'),
+        FieldPanel('cover_image'),
+    ]
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def title(self):
+        return self.file.title if self.file else "Untitled Book"
+
+    class Meta:
+        ordering = ['date_published']
 
 class LibraryIndexPage(Page):
     template = "library/library-index-page.html"
@@ -37,15 +53,8 @@ class LibraryIndexPage(Page):
         FieldPanel('body')
     ]
 
-    def get_context(self, request):
-        context = super().get_context(request)
-        # Get all resources, potentially filtering by search query
-        resources = BookResource.objects.all().order_by('-date_published')
-        query = request.GET.get("query")
+    def get_pagination(self, request, resources):
         page = request.GET.get("page",1)
-
-        if query:
-            resources = resources.filter(title__icontains=query)
 
         paginator = Paginator(resources,10)
 
@@ -55,6 +64,18 @@ class LibraryIndexPage(Page):
             resources = paginator.page(1)
         except EmptyPage:
             resources = paginator.page(paginator.num_pages)
+
+        return resources
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        resources = BookResource.objects.all()
+        query = request.GET.get("query")
+
+        if query:
+            resources = resources.filter(title__icontains=query)
+
+        resources = self.get_pagination(request, resources)
 
         context["query"] = query
         context['resources'] = resources

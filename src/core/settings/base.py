@@ -170,8 +170,6 @@ WAGTAILDOCS_CONTENT_TYPES = {
     'pdf': ['application/pdf', 'application/x-pdf'],
 }
 
-WAGTAILDOCS_DOCUMENT_MODEL = 'library.BookResource'
-
 
 COTTON_DIR = 'components'
 COTTON_SNAKE_CASED_NAMES = False

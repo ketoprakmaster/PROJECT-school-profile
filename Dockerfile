@@ -57,4 +57,4 @@ WORKDIR /app/src
 EXPOSE 8000
 
 ENTRYPOINT ["/app/run.sh"]
-CMD ["gunicorn", "core.wsgi:application", "--bind", "0.0.0.0:8000", "-w", "4"]
+CMD ["python", "-m", "gunicorn", "core.wsgi:application", "--bind", "0.0.0.0:8000", "-w", "4"]

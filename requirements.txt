@@ -6,6 +6,12 @@ asgiref==3.10.0
     # via django
 beautifulsoup4==4.14.2
     # via wagtail
+boto3==1.42.19
+    # via django-storages
+botocore==1.42.19
+    # via
+    #   boto3
+    #   s3transfer
 certifi==2025.10.5
     # via requests
 charset-normalizer==3.4.4
@@ -18,6 +24,7 @@ django==5.2.8
     #   django-filter
     #   django-modelcluster
     #   django-permissionedforms
+    #   django-storages
     #   django-stubs-ext
     #   django-taggit
     #   django-tasks
@@ -34,6 +41,8 @@ django-modelcluster==6.4
     # via wagtail
 django-permissionedforms==0.1
     # via wagtail
+django-storages==1.14.6
+    # via project-school-profile (pyproject.toml)
 django-stubs-ext==5.2.7
     # via django-tasks
 django-taggit==6.1.0
@@ -46,8 +55,6 @@ django-treebeard==4.7.1
     # via wagtail
 djangorestframework==3.16.1
     # via wagtail
-dotenv==0.9.9
-    # via project-school-profile (pyproject.toml)
 draftjs-exporter==5.1.0
     # via wagtail
 et-xmlfile==2.0.0
@@ -58,6 +65,10 @@ gunicorn==23.0.0
     # via project-school-profile (pyproject.toml)
 idna==3.11
     # via requests
+jmespath==1.0.1
+    # via
+    #   boto3
+    #   botocore
 laces==0.1.2
     # via wagtail
 modelsearch==1.1
@@ -68,7 +79,6 @@ packaging==25.0
     # via gunicorn
 pillow==12.0.0
     # via
-    #   project-school-profile (pyproject.toml)
     #   pillow-heif
     #   wagtail
 pillow-heif==1.1.1
@@ -77,12 +87,18 @@ psycopg==3.2.12
     # via project-school-profile (pyproject.toml)
 psycopg-binary==3.2.12
     # via psycopg
+python-dateutil==2.9.0.post0
+    # via botocore
 python-decouple==3.8
     # via project-school-profile (pyproject.toml)
-python-dotenv==1.2.1
-    # via dotenv
+rapidfuzz==3.14.3
+    # via project-school-profile (pyproject.toml)
 requests==2.32.5
     # via wagtail
+s3transfer==0.16.0
+    # via boto3
+six==1.17.0
+    # via python-dateutil
 soupsieve==2.8
     # via beautifulsoup4
 sqlparse==0.5.3
@@ -99,7 +115,9 @@ tzdata==2025.2
     #   django
     #   psycopg
 urllib3==2.5.0
-    # via requests
+    # via
+    #   botocore
+    #   requests
 wagtail==7.2
     # via project-school-profile (pyproject.toml)
 willow==1.12.0

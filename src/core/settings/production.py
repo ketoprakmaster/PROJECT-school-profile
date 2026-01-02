@@ -1,5 +1,4 @@
 from .base import *
-from core.configs.logs import LOGGING
 
 from decouple import config, Csv
 

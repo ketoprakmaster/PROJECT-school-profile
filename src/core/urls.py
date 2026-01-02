@@ -2,12 +2,12 @@ from django.conf import settings
 from django.urls import include, path
 from django.contrib import admin
 
-
-
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
+def test_exceptions(request):
+    raise BaseException("test error")
 
 urlpatterns = [
     path("django-admin/", admin.site.urls),
@@ -16,10 +16,6 @@ urlpatterns = [
 
     path("api/school/", include("school.urls")),
     path("api/chat", include("chatbot.urls")),
-
-
-    # Wagtail's router will handle all other page URLs
-    path("", include(wagtail_urls)),
 ]
 
 if settings.DEBUG:
@@ -28,3 +24,9 @@ if settings.DEBUG:
 
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    urlpatterns += [path("debug/", test_exceptions)]
+
+# ALWAYS keep this last
+urlpatterns += [path("", include(wagtail_urls))]

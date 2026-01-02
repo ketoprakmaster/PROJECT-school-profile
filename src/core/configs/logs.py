@@ -1,19 +1,15 @@
-# configs/logs.py
-
+from pathlib import Path
 from decouple import config
-from core.configs.paths import BASE_DIR, Path
 
 # --- Environment Configuration ---
-LOG_LEVEL = str(config("LOG_LEVEL", default="INFO")).upper()
+LOG_LEVEL = config("LOG_LEVEL", default="INFO").upper()
 LOG_FILE_PATH = config("LOG_FILE_PATH", default=None)
-
-# -----------------------------------
+SENTRY_DSN = config("SENTRY_DSN", default=None)
+ENVIRONMENT = config("ENVIRONMENT", "development").upper()
 
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-
-    # 1. Formatters: Define how the log messages look
     'formatters': {
         'verbose': {
             'format': (
@@ -26,58 +22,62 @@ LOGGING = {
             'format': '%(levelname)s %(message)s'
         }
     },
-
-    # 2. Handlers: Define where the log messages go
     'handlers': {
-        # Console Handler (Always active, useful for Docker logs)
         'console': {
-            'level': 'DEBUG', # Always capture DEBUG, filter by logger level
+            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            'formatter': 'verbose'
+            'formatter': 'verbose',
         },
     },
-
-    # 3. Loggers: Define which parts of the code log messages and at what level
     'loggers': {
-        # Default application logger (catches everything not handled below)
-        '': {
+        '': {  # Root logger
             'handlers': ['console'],
-            'level': LOG_LEVEL, # Controlled by environment variable
-            'propagate': True,
+            'level': LOG_LEVEL,
         },
-        # Django's own core logger
         'django': {
             'handlers': ['console'],
-            'level': 'WARNING', # Set Django warnings and errors to a higher level
+            'level': config("DJANGO_LOG_LEVEL", default="INFO").upper(),
             'propagate': False,
         },
-        # Specific logger for database queries/operations
+        # Prevent sensitive DB queries from flooding logs in prod
         'django.db.backends': {
+            'level': 'ERROR',
             'handlers': ['console'],
-            'level': 'INFO', # Set to INFO/DEBUG for development
             'propagate': False,
         },
-    }
+    },
 }
 
-# --- Production File Logging Extension ---
-# Only add file logging if a LOG_FILE_PATH is provided (e.g., in production)
+# --- Production File Logging ---
 if LOG_FILE_PATH:
-    # Ensure the directory exists
-    log_dir = Path(LOG_FILE_PATH)
-    log_dir.mkdir(parents=True,exist_ok=True)
+    log_file = Path(LOG_FILE_PATH)
+    log_file.parent.mkdir(parents=True, exist_ok=True)
 
-    # Add the File Handler to the handlers dictionary
     LOGGING['handlers']['file'] = {
         'level': LOG_LEVEL,
         'class': 'logging.handlers.RotatingFileHandler',
-        'filename': LOG_FILE_PATH,
-        'maxBytes': 1024 * 1024 * 5,  # 5 MB
-        'backupCount': 5,            # Keep 5 backup files
+        'filename': str(log_file),
+        'maxBytes': 1024 * 1024 * 10,  # 10 MB
+        'backupCount': 5,
         'formatter': 'verbose',
     }
+    LOGGING['loggers']['']['handlers'].append('file')
 
-    # Update the root logger to also use the file handler
-    LOGGING['loggers']['']['handlers'] = ['console', 'file']
-    # Update the Django logger to also use the file handler
-    LOGGING['loggers']['django']['handlers'] = ['console', 'file']
+# --- Sentry SDK Initialization ---
+if SENTRY_DSN:
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+
+    sentry_sdk.init(
+        dsn = SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        environment = ENVIRONMENT,
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for performance monitoring.
+        traces_sample_rate=config("SENTRY_TRACE_RATE", default=0.1, cast=float),
+        send_default_pii=True,
+    )
+
+
+# pyright: reportArgumentType=false
+# pyright: reportAttributeAccessIssue=false

@@ -10,13 +10,19 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+# Quick-start development settings
+# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
+from pathlib import Path
 from decouple import config
 
-# from core.configs.email import *
 from core.configs.db import DATABASES, DEFAULT_ENGINE
-from core.configs.paths import BASE_DIR, PROJECT_DIR
 from core.configs.storages import STORAGES
+from core.configs.logs import LOGGING
 from core.configs.email import *
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+PROJECT_DIR = Path(__file__).resolve().parent.parent
 
 # Application definition
 

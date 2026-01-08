@@ -1,187 +1,109 @@
+
 # School Profile Website
 
-This is a school profile website built with Django and Wagtail, designed to be managed through a headless admin interface. The frontend is built with TailwindCSS and DaisyUI, with htmx for dynamic interactions.
+A modern school profile website built with **Django** and **Wagtail CMS**. It features a headless-ready admin interface, a responsive frontend using **TailwindCSS** and **DaisyUI**, and dynamic interactions powered by **htmx**.
 
 ## Features
 
--   **CMS-driven Content:** Easily editable pages and content blocks via Wagtail admin.
--   **Modern Frontend:** A clean and responsive UI built with TailwindCSS and DaisyUI.
--   **Dynamic Components:** Interactive elements powered by htmx.
--   **Containerized:** Docker support for easy setup and deployment.
-
-## Getting Started
-
-You can run this project in two ways: using Docker or setting it up manually.
-
-### Prerequisites
-
--   [uv](https://github.com/astral-sh/uv) (for manual setup)
--   [Python 3.11+](https://www.python.org/)
--   [Node.js](https://nodejs.org/en/) (with npm)
--   [Docker](https://www.docker.com/products/docker-desktop/) (for Docker-based setup)
-
----
-
-### 1. Running with Docker (Recommended)
-
-This is the easiest way to get the project up and running.
-
-  
-1. **Define the Docker Compose File:**
-    ```bash
-    services:
-    # 1. Django/Wagtail Application Service
-    web:
-      # build or pull from existing images
-      # build: .
-      image: ghcr.io/ketoprakmaster/project-school-profile:main
-      volumes:
-        - static_volume:/app/src/static
-        - media_volume:/app/src/media
-      # either use .env files or define it in docker compose.
-      env_file:
-        - ./docker/.env.example
-      environment:
-        - DJANGO_SUPERUSER_USERNAME = admin
-        - DJANGO_SUPERUSER_EMAIL = admin@localhost.com
-        - DJANGO_SUPERUSER_PASSWORD = yourpassword
-      depends_on:
-        db:
-          condition: service_healthy
-      command: sh -c "python -m gunicorn core.wsgi:application --bind 0.0.0.0:8000"
-  
-    # 2. PostgreSQL Database Service
-    db:
-      image: postgres:18-alpine
-      volumes:
-        - postgres_data:/var/lib/postgresql/data/
-      env_file:
-        - ./docker/.env.example
-      healthcheck:
-        test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
-        interval: 5s
-        timeout: 5s
-        retries: 5
-  
-    # 3. Nginx Reverse Proxy Service
-    nginx:
-      image: nginx:stable-alpine
-      ports:
-        - "80:80"
-      volumes:
-        - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-        - static_volume:/app/static
-        - media_volume:/app/media
-      depends_on:
-        - web
-  
-    # Define the volumes used by the services
-    volumes:
-        postgres_data:
-        static_volume:
-        media_volume:
-    ```
-
-1.  **Pull and run the containers:**
-    ```bash
-    docker-compose up
-    ```
-
-1.  **Access the application:**
-    -   **Website:** [http://127.0.0.1:80](http://127.0.0.1:80)
-    -   **Wagtail Admin:** [http://127.0.0.1:80/django-cms/](http://127.0.0.1:80/django-cms/)
-
-    A default superuser is created with the following credentials (unless changed in the `.env` file):
-    -   **Username:** `admin`
-    -   **Password:** `yourpassword`
-
----
-
-### 2. Manual Installation
-
-Follow these steps to run the project on your local machine without Docker.
-
-1.  **Clone the repository:**
-    ```bash
-    git clone <repository-url>
-    cd <repository-name>
-    ```
-
-2.  **Install Python dependencies:**
-    It is recommended to use a virtual environment.
-    ```bash
-    # Using uv
-    uv sync
-
-    # Or using pip
-    pip install -r requirements.txt
-    ```
-
-3.  **Install Node.js dependencies:**
-    ```bash
-    npm install
-    ```
-
-4.  **Run database migrations:**
-    ```bash
-    # pip
-    python src/manage.py migrate
+-   **Wagtail CMS:** Fully editable pages and flexible content blocks.
+-   **Modern UI:** Responsive design using TailwindCSS + DaisyUI.
+-   **Dynamic UX:** Seamless page updates without full reloads via htmx.
+-   **Zero-Config Docker:** Run the entire app with a single command using SQLite.
     
-    # uv
-    uv src/manage.py migrate
-    ```
+----------
 
-5.  **Run the development servers:**
-    You need to run two processes in separate terminals.
+## 🚀 Quick Start (Docker)
 
-    **Terminal 1: Watch for CSS changes**
-    ```bash
-    npm run watch:css
-    ```
+This is the easiest way to run the project. It uses a single container with a local SQLite database, meaning you don't need to set up PostgreSQL or Nginx to get started.
 
-    **Terminal 2: Run the Django server**
-    ```bash
-    # using uv
-    uv src/manage.py runserver
+### **1. Create a docker-compose.yaml**
+Save the following content into a file named `docker-compose.yml`:
+``` yaml
+services:
+  web:
+    image: ghcr.io/ketoprakmaster/project-school-profile:main
+    ports:
+      - "8000:8000"
+    volumes:
+      - data_volume:/app/src/data
+    environment:
+      - DJANGO_SETTINGS_MODULE=core.settings.dev
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_PASSWORD=12345
+      - DJANGO_SUPERUSER_EMAIL=admin@example.com
+      - SECRET_KEY=changeme
 
-    # or using pip
-    python src/manage.py runserver
-    ```
-
-6.  **Access the application:**
-    -   **Website:** [http://127.0.0.1:8000](http://127.0.0.1:8000)
-    -   **Wagtail CMS:** [http://127.0.0.1:8000/django-cms/](http://127.0.0.1:8000/django-cms/)
-    -   **Wagtail Admin:** [http://127.0.0.1:8000/django-admin/](http://127.0.0.1:8000/django-admin/)
-
-
-## Creating a Superuser
-
-If you are running the project manually, you'll need a superuser account to access the admin panel.
-```bash
-# pip
-python src/manage.py createsuperuser
-
-# uv
-uv src/manage.py createsuperuser
+volumes:
+  data_volume:
 ```
-Follow the prompts to create your username, email, and password.
 
-## Building for Production
+### **2.  Launch the Application:**
+  run this command in your terminal
+  ``` bash
+  docker compose up
+  ```
+    
+### **3.  Access the Site:**
+  - Website: http://localhost:8000
+  - Admin Panel: http://localhost:8000/django-cms/
+    - Username: admin
+    - Password: 12345
+        
 
-If you are deploying the application manually, you need to build the frontend assets and collect static files.
+----------
 
-1.  **Build Frontend Assets:**
-    This command will build and minify the CSS files.
-    ```bash
-    npm run build:css
-    ```
+## 🛠️ **Local Development**
 
-2.  **Collect Static Files:**
-    This command collects all static files into a single directory.
-    ```bash
-    # pip
-    python src/manage.py collectstatic
+Follow these steps to set up the project locally for development.
 
-    # uv
-    uv src/manage.py collectstatic
-    ```
+### **Prerequisites**
+
+-   **Python 3.11+** (Managed via [uv](https://docs.astral.sh/uv/) recommended)
+    
+-   **Node.js & npm** (For TailwindCSS compilation)
+    
+
+### **1. Clone the repository**
+
+``` bash
+# Clone the repository
+git clone https://github.com/ketoprakmaster/project-school-profile
+cd project-school-profile
+```
+
+### **2. install required dependencies**
+``` bash
+# Install python dependencies with uv
+uv sync 
+
+# or install with pip 
+pip install -r requirements.txt
+
+# Install Node dependencies
+npm install
+```
+
+### **3. Initialize Database**
+
+```bash
+# Run migrations
+uv run src/manage.py migrate
+
+# Create your admin account
+uv run src/manage.py createsuperuser
+```
+
+### **4. Run Development Servers**
+
+You need to run the Django server and the Tailwind compiler simultaneously:
+
+**Django Server**
+```bash
+uv run src/manage.py runserver
+```
+**Tailwind Watch**
+```bash
+npm run watch:css
+```
+    
+----------

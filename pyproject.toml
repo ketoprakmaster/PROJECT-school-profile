@@ -15,5 +15,13 @@ dependencies = [
     "wagtail>=7.1.2",
 ]
 
+[dependency-groups]
+dev = [
+    "locust>=2.43.0",
+]
+
 [tool.pyright]
 typeCheckingMode = "basic"
+
+[tool.locust]
+locustfile = "test/locustfile.py"

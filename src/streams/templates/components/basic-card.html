@@ -1,0 +1,29 @@
+{% load cotton wagtailimages_tags %}
+
+<c-vars
+    :image="self.image"
+    :title="self.title"
+    :description="self.description"
+/>
+
+<div class="group card border-base-300 border-2 shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+    {% if image %}
+    <figure class="overflow-visible">
+        {% image image fill-400x300 as card_img %}
+        <img
+            src="{{ card_img.url }}"
+            alt="{{ card_img.alt }}"
+            class="object-cover w-full transition-transform duration-500 group-hover:scale-120"
+        />
+    </figure>
+    {% endif %}
+
+    <div class="card-body bg-base-100">
+        <h3 class="card-title text-xl font-bold text-base-content justify-center transition-colors duration-300 group-hover:text-primary">
+            {{ title }}
+        </h3>
+        <p class="text-base-content/70">
+            {{ description }}
+        </p>
+    </div>
+</div>

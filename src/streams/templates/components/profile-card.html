@@ -1,0 +1,47 @@
+{% load wagtailimages_tags %}
+
+{% comment %}
+    File: templates/cotton/card/profile-card.html
+    Attributes: image, title (name), description (role/bio)
+{% endcomment %}
+
+<c-vars
+    :image="self.image"
+    :title="self.title"
+    :description="self.description"
+    :contact="self.contact"
+/>
+
+<div class="group card bg-base-100 shadow-xl border-base-300 border-2 transition-all hover:shadow-2xl hover:-translate-y-2">
+  <figure class="px-10 pt-10 border-t-4 border-secondary">
+    {% if image %}
+        {% image image fill-400x300 as card_img %}
+        <div class="avatar">
+          <div class="w-full rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+            <img
+                src="{{ card_img.url }}"
+                alt="{{ title }}"
+                class="object-cover w-full transition-transform duration-500 group-hover:scale-120"
+            />
+          </div>
+        </div>
+    {% else %}
+        <div class="avatar placeholder">
+          <div class="bg-neutral text-neutral-content rounded-full w-full">
+            <span class="text-3xl">{{ title|slice:":1" }}</span>
+          </div>
+        </div>
+    {% endif %}
+  </figure>
+
+  <div class="card-body items-center text-center">
+    <h2 class="card-title text-primary">{{ title }}</h2>
+    <p class="text-sm opacity-70">{{ description }}</p>
+
+    <div class="card-actions mt-4">
+        <hr class="text-base-content/20 w-full">
+        <p class="text-sm opacity-70">{{ contact }}</p>
+    </div>
+
+  </div>
+</div>

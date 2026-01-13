@@ -14,8 +14,8 @@ urlpatterns = [
     path("django-cms/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
 
-    path("api/school/", include("school.urls")),
-    path("api/chat", include("chatbot.urls")),
+    path("partials/school/", include("school.urls")),
+    path("partials/chat", include("chatbot.urls")),
 ]
 
 if settings.DEBUG:

@@ -107,3 +107,8 @@ npm run watch:css
 ```
     
 ----------
+
+## UI UX Design
+The UI/UX design for this project was created to ensure a modern, clean, and user-friendly school profile website, with a strong focus on readability, responsiveness, and content hierarchy.
+
+UI/UX Design Link : https://drive.google.com/drive/folders/1s2Eo6RJ3zaoq6Tew2cQ8yO7rgw0mGx4k?usp=sharing

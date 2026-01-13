@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from .chatbot import get_answer
 
-def chat_hx(request):
+def chat_messages(request):
     if request.method == "POST":
         user_input = request.POST.get("user-message", "")
         answer = get_answer(user_input)
@@ -11,7 +11,6 @@ def chat_hx(request):
             "user": user_input,
             "answer": answer
         })
-    return render(request, "/components/chat-element.html")
 
-def main_page(request):
-    return render(request,"main.html")
+def chat_forms(request):
+    return render(request,"components/chat-window.html")

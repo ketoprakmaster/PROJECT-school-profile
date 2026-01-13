@@ -45,3 +45,11 @@ class BrandSettings(BaseGenericSetting):
         FieldPanel("schedule"),
         FieldPanel("description")
     ]
+
+@register_setting
+class GeneralSettings(BaseGenericSetting):
+    enable_chatbot = models.BooleanField(default=False)
+
+    panels = [
+        FieldPanel("enable_chatbot")
+    ]

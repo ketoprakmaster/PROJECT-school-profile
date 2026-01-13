@@ -52,5 +52,7 @@
     <!--Page Footer Here-->
     <c-base-footer/>
 
-    <c-chat-element/>
+    {% if settings.global.GeneralSettings.enable_chatbot %}
+        <c-chat-fab-button/>
+    {% endif %}
 </body>

@@ -12,12 +12,12 @@ class BaseTitledBlock(blocks.StructBlock):
     consistently across all other blocks.
     """
     title = blocks.CharBlock(
-        required=False, 
-        max_length=255, 
+        required=False,
+        max_length=255,
         label="Judul/Title"
     )
     subtitle = blocks.TextBlock(
-        required=False, 
+        required=False,
         label="Sub-judul/Deskripsi"
     )
 
@@ -42,7 +42,7 @@ class BasicCardBlock(blocks.StructBlock):
     description = blocks.TextBlock(required=False)
 
     class Meta:
-        template = "components/basic-card.html"
+        template = "components/streams-basic-card.html"
         icon = "form"
         label = "Card"
 
@@ -51,7 +51,7 @@ class ProfileCardBlock(BasicCardBlock):
     contact = blocks.TextBlock(required=False, help_text="Nomor atau link kontak")
 
     class Meta:
-        template = "components/profile-card.html"
+        template = "components/streams-profile-card.html"
         icon = "user"
         label = "Profile Card"
 
@@ -60,7 +60,7 @@ class TimelineItemBlock(blocks.StructBlock):
     title = blocks.CharBlock(required=False, max_length=128)
     date = blocks.DateBlock(required=False)
     description = blocks.RichTextBlock(
-        required=False, 
+        required=False,
         features=["image", "bold", "italic", "embed", "link"]
     )
 
@@ -164,6 +164,6 @@ class BodyContentBlock(blocks.StreamBlock):
     carousel_sections = CarouselBlock()
     faq_sections = FAQBlock()
     timeline_sections = TimelineBlocks()
-    
+
     academic_sections = AcademicCalendarBlock()
     schedule_sections = ScheduleBlock()

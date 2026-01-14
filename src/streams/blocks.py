@@ -14,11 +14,13 @@ class BaseTitledBlock(blocks.StructBlock):
     title = blocks.CharBlock(
         required=False,
         max_length=255,
-        label="Judul/Title"
+        label="Judul",
+        help_text="Masukkan judul utama untuk bagian ini."
     )
     subtitle = blocks.TextBlock(
         required=False,
-        label="Sub-judul/Deskripsi"
+        label="Sub-judul/Deskripsi",
+        help_text="Tambahkan keterangan tambahan di bawah judul (opsional)."
     )
 
     class Meta:
@@ -28,8 +30,16 @@ class BaseTitledBlock(blocks.StructBlock):
 # --- ITEM BLOCKS (Small Components) ---
 
 class QuestionAnswerBlock(blocks.StructBlock):
-    question = blocks.CharBlock(max_length=255, label="Pertanyaan")
-    answer = blocks.RichTextBlock(features=['bold', 'italic', 'link'], label="Jawaban")
+    question = blocks.CharBlock(
+        max_length=255,
+        label="Pertanyaan",
+        help_text="Tuliskan pertanyaan yang sering diajukan."
+    )
+    answer = blocks.RichTextBlock(
+        features=['bold', 'italic', 'link'],
+        label="Jawaban",
+        help_text="Tuliskan jawaban lengkap secara singkat dan jelas."
+    )
 
     class Meta:
         icon = 'comment'
@@ -37,133 +47,196 @@ class QuestionAnswerBlock(blocks.StructBlock):
 
 
 class BasicCardBlock(blocks.StructBlock):
-    image = ImageChooserBlock(required=False)
-    title = blocks.CharBlock(required=False, max_length=96)
-    description = blocks.TextBlock(required=False)
+    image = ImageChooserBlock(
+        required=False,
+        label="Gambar",
+        help_text="Gunakan gambar dengan rasio 4:3 untuk hasil terbaik."
+    )
+    title = blocks.CharBlock(
+        required=False,
+        max_length=96,
+        label="Judul Kartu",
+        help_text="Judul singkat untuk kartu ini."
+    )
+    description = blocks.TextBlock(
+        required=False,
+        label="Deskripsi",
+        help_text="Isi konten utama dari kartu."
+    )
 
     class Meta:
         template = "components/streams-basic-card.html"
         icon = "form"
-        label = "Card"
+        label = "Kartu Standar"
 
 
 class ProfileCardBlock(BasicCardBlock):
-    contact = blocks.TextBlock(required=False, help_text="Nomor atau link kontak")
+    contact = blocks.TextBlock(
+        required=False,
+        label="Kontak",
+        help_text="Masukkan nomor telepon, email, atau link profil sosial media."
+    )
 
     class Meta:
         template = "components/streams-profile-card.html"
         icon = "user"
-        label = "Profile Card"
+        label = "Kartu Profil"
 
 
 class TimelineItemBlock(blocks.StructBlock):
-    title = blocks.CharBlock(required=False, max_length=128)
-    date = blocks.DateBlock(required=False)
+    title = blocks.CharBlock(
+        required=False,
+        max_length=128,
+        label="Nama Agenda/Event"
+    )
+    date = blocks.DateBlock(
+        required=False,
+        label="Tanggal",
+        help_text="Pilih tanggal kejadian untuk urutan waktu."
+    )
     description = blocks.RichTextBlock(
         required=False,
-        features=["image", "bold", "italic", "embed", "link"]
+        features=["image", "bold", "italic", "embed", "link"],
+        label="Keterangan",
+        help_text="Detail informasi mengenai agenda/event ini."
     )
 
     class Meta:
         icon = "date"
-        label = "Timeline Item"
+        label = "Item Lini Masa"
 
 
 # --- MAIN SECTION BLOCKS (Refactored using BaseTitledBlock) ---
 
 class FAQBlock(BaseTitledBlock):
-    items = blocks.ListBlock(QuestionAnswerBlock(), label="Daftar Pertanyaan")
+    items = blocks.ListBlock(
+        QuestionAnswerBlock(),
+        label="Daftar Pertanyaan",
+        help_text="Tambahkan satu atau lebih tanya-jawab ke dalam daftar."
+    )
 
     class Meta:
         template = 'blocks/faq-sections.html'
         icon = 'list-ul'
-        label = 'Daftar FAQ'
+        label = 'Bagian FAQ'
 
 
 class HeadingBlock(BaseTitledBlock):
-    background_image = ImageChooserBlock(required=False)
+    background_image = ImageChooserBlock(
+        required=False,
+        label="Gambar Latar",
+        help_text="Gambar ini akan muncul sebagai latar belakang heading."
+    )
     icon_choice = blocks.ChoiceBlock(
         choices=[(value, key) for key, value in FLOWBITE_ICONS.items()],
         required=False,
-        default=FLOWBITE_ICONS.get("calendar", "")
+        label="Ikon",
+        default=FLOWBITE_ICONS.get("calendar", ""),
+        help_text="Pilih ikon visual untuk mendampingi judul."
     )
 
     class Meta:
         template = "blocks/heading-section.html"
         icon = "title"
-        label = "Heading Block"
+        label = "Bagian Judul (Heading)"
 
 
 class HeroBlock(BaseTitledBlock):
-    # Overriding title/subtitle untuk menggunakan RichText khusus di Hero Section
-    title = blocks.RichTextBlock(required=False, features=['bold', 'italic', 'br'])
-    subtitle = blocks.RichTextBlock(required=False, features=['bold', 'italic', 'br'])
-    image = ImageChooserBlock(required=False, label="Hero Image")
+    title = blocks.RichTextBlock(
+        required=False,
+        features=['bold', 'italic', 'br'],
+        label="Judul Hero",
+        help_text="Judul besar di bagian atas halaman (mendukung baris baru)."
+    )
+    subtitle = blocks.RichTextBlock(
+        required=False,
+        features=['bold', 'italic', 'br'],
+        label="Sub-judul Hero",
+        help_text="Penjelasan singkat di bawah judul utama."
+    )
+    image = ImageChooserBlock(
+        required=False,
+        label="Gambar Hero",
+        help_text="Gambar utama yang akan ditampilkan di section Hero."
+    )
 
     class Meta:
         template = "blocks/hero-section.html"
         icon = "home"
-        label = "Hero Section"
+        label = "Bagian Hero"
 
 
 class TitledCardSectionBlock(BaseTitledBlock):
     cards = blocks.StreamBlock([
-        ('card', BasicCardBlock()),
-        ('profile_card', ProfileCardBlock()),
-    ], use_json_field=True, required=False)
+        ('card', BasicCardBlock(label="Kartu Biasa")),
+        ('profile_card', ProfileCardBlock(label="Kartu Profil")),
+    ], use_json_field=True, required=False, label="Kumpulan Kartu")
 
     class Meta:
         template = "blocks/titled-card-section.html"
         icon = "table"
-        label = "Titled Card Section"
+        label = "Bagian Kartu Berjudul"
 
 
 class HorizontalCardSectionBlock(TitledCardSectionBlock):
     class Meta:
         template = "blocks/horizontal-card-section.html"
         icon = "table"
-        label = "Horizontal Card Sections"
+        label = "Bagian Kartu Horizontal"
 
 
 class MapsEmbedBlock(BaseTitledBlock):
-    element = blocks.RawHTMLBlock(required=False, help_text="Embed code dari Google Maps")
+    element = blocks.RawHTMLBlock(
+        required=False,
+        label="Kode Embed Maps",
+        help_text="Salin kode iframe dari Google Maps (Share > Embed a map)."
+    )
 
     class Meta:
         template = "blocks/maps-section.html"
         icon = "site"
-        label = "Maps Sections"
+        label = "Bagian Google Maps"
 
 
 class TimelineBlocks(BaseTitledBlock):
-    items = blocks.ListBlock(TimelineItemBlock())
+    items = blocks.ListBlock(
+        TimelineItemBlock(),
+        label="Daftar Agenda Lini Masa"
+    )
 
     class Meta:
         template = "blocks/timeline-sections.html"
         icon = "history"
-        label = "Timeline Sections"
+        label = "Bagian Lini Masa"
 
 
 class CarouselBlock(blocks.StructBlock):
-    # Carousel biasanya tidak butuh title/subtitle global, tapi bisa ditambah jika mau
-    images = blocks.ListBlock(ImageChooserBlock())
+    images = blocks.ListBlock(
+        ImageChooserBlock(),
+        label="Slide Gambar",
+        help_text="Tambahkan beberapa gambar untuk slide yang berputar otomatis."
+    )
 
     class Meta:
         template = "blocks/carousel-section.html"
         icon = "image"
-        label = "Carousel"
+        label = "Carousel/Slide"
 
 
 # --- FINAL STREAMBLOCK ---
 
 class BodyContentBlock(blocks.StreamBlock):
-    hero_section = HeroBlock()
-    card_section = TitledCardSectionBlock()
-    horizontal_card_section = HorizontalCardSectionBlock()
-    maps_section = MapsEmbedBlock()
-    heading_sections = HeadingBlock()
-    carousel_sections = CarouselBlock()
-    faq_sections = FAQBlock()
-    timeline_sections = TimelineBlocks()
+    hero_section = HeroBlock(label="Bagian Hero")
+    card_section = TitledCardSectionBlock(label="Bagian Kartu Vertikal")
+    horizontal_card_section = HorizontalCardSectionBlock(label="Bagian Kartu Horizontal")
+    maps_section = MapsEmbedBlock(label="Peta Lokasi")
+    heading_sections = HeadingBlock(label="Judul Halaman/Header")
+    carousel_sections = CarouselBlock(label="Slide Gambar (Carousel)")
+    faq_sections = FAQBlock(label="Tanya Jawab (FAQ)")
+    timeline_sections = TimelineBlocks(label="Lini Masa/Sejarah")
 
-    academic_sections = AcademicCalendarBlock()
-    schedule_sections = ScheduleBlock()
+    academic_sections = AcademicCalendarBlock(label="Kalender Akademik")
+    schedule_sections = ScheduleBlock(label="Jadwal Pelajaran")
+
+    class Meta:
+        label = "Konten Halaman"

@@ -112,3 +112,17 @@ npm run watch:css
 The UI/UX design for this project was created to ensure a modern, clean, and user-friendly school profile website, with a strong focus on readability, responsiveness, and content hierarchy.
 
 UI/UX Design Link : https://drive.google.com/drive/folders/1s2Eo6RJ3zaoq6Tew2cQ8yO7rgw0mGx4k?usp=sharing
+
+----------
+
+## 🤖 Chatbot Module
+A lightweight chatbot integrated into the school profile to handle frequent inquiries.
+
+### Features
+- **Efficient Matching:** Migrated from heavy ML models (Multinomial Naive Bayes) to **RapidFuzz** for high-performance string matching and lower Docker resource consumption.
+- **Intent Recognition:** Predicts user intent and provides relevant answers from a predefined knowledge base.
+- **Optimized for Production:** Minimal memory footprint, making it ideal for containerized environments.
+
+### Repository
+Find the chatbot logic and integration details here:
+[Chatbot Repository Link](https://github.com/ZarhanJaan/company-profile-web-chatbot/)

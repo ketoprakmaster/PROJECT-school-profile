@@ -1,5 +1,6 @@
 from decouple import config
 from storages.backends.s3boto3 import S3Boto3Storage, S3ManifestStaticStorage
+from boto3.s3.transfer import TransferConfig
 
 # Default storage settings
 # See https://docs.djangoproject.com/en/5.2/ref/settings/#std-setting-STORAGES
@@ -7,13 +8,13 @@ from storages.backends.s3boto3 import S3Boto3Storage, S3ManifestStaticStorage
 class StaticStorage(S3ManifestStaticStorage):
     location = 'static'
     default_acl = 'public-read'
-    querystring_auth = False  # Static files should have clean URLs for caching
+    querystring_auth = False
 
 class MediaStorage(S3Boto3Storage):
     location = 'media'
-    default_acl = 'public-read'   # Keeps user uploads secure
+    default_acl = 'public-read'
     file_overwrite = False
-    querystring_auth = True   # Generates temporary signed links for security
+    querystring_auth = False
 
 # Gather credentials
 S3_BUCKET_NAME = config("S3_BUCKET_NAME", default=None)
@@ -38,6 +39,12 @@ if USE_S3:
         "object_parameters": {
             'CacheControl': 'max-age=2592000', # 30 days
         },
+        "transfer_config": TransferConfig(
+            multipart_threshold=8 * 1024 * 1024,  # 8MB
+            max_concurrency=10,
+            multipart_chunksize=8 * 1024 * 1024,
+            use_threads=True,
+        ),
     }
 
 if USE_S3:

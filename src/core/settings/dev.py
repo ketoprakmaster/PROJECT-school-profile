@@ -1,5 +1,6 @@
 from .base import *
 from django.core.management.utils import get_random_secret_key
+from core.configs.utils import summarize_services
 from decouple import config
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -31,6 +32,8 @@ STORAGES["staticfiles"] = {
     "BACKEND" : "django.contrib.staticfiles.storage.StaticFilesStorage"
 }
 
+# Deployment Verbosity / Service Discovery
+summarize_services(vars())
 
 try:
     from .local import *

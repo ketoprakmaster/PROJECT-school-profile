@@ -5,12 +5,12 @@ from boto3.s3.transfer import TransferConfig
 # Default storage settings
 # See https://docs.djangoproject.com/en/5.2/ref/settings/#std-setting-STORAGES
 
-class StaticStorage(S3ManifestStaticStorage):
+class S3StaticStorage(S3ManifestStaticStorage):
     location = 'static'
     default_acl = 'public-read'
     querystring_auth = False
 
-class MediaStorage(S3Boto3Storage):
+class S3MediaStorage(S3Boto3Storage):
     location = 'media'
     default_acl = 'public-read'
     file_overwrite = False
@@ -50,11 +50,11 @@ if USE_S3:
 if USE_S3:
     STORAGES = {
         'default': {
-            'BACKEND': 'core.configs.storages.MediaStorage',
+            'BACKEND': 'core.configs.storages.S3MediaStorage',
             'OPTIONS': S3_CONFIG_OPTIONS,
         },
         'staticfiles': {
-            'BACKEND': 'core.configs.storages.StaticStorage',
+            'BACKEND': 'core.configs.storages.S3StaticStorage',
             'OPTIONS': S3_CONFIG_OPTIONS,
         },
     }

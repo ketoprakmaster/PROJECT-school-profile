@@ -17,8 +17,8 @@ from decouple import config
 
 from core.configs.db import DATABASES, DEFAULT_ENGINE
 from core.configs.storages import STORAGES
-from core.configs.logs import LOGGING
-from core.configs.email import *
+from core.configs.logs import LOGGING, ENVIRONMENT,LOG_LEVEL
+from core.configs.email import DEFAULT_FROM_EMAIL, ADMINS, EMAIL_BACKEND, EMAIL_HOST, EMAIL_HOST_PASSWORD, EMAIL_HOST_USER, EMAIL_PORT, EMAIL_USE_SSL, EMAIL_USE_TLS, SERVER_EMAIL
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).resolve().parent.parent.parent

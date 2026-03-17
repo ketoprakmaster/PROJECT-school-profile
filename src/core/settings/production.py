@@ -1,4 +1,5 @@
 from .base import *
+from core.configs.utils import summarize_services
 
 from decouple import config, Csv
 
@@ -35,6 +36,9 @@ if LOGGING:
 # raise error if DB hasn't been configured
 if not DATABASES:
     raise Exception("DATABASE hasn't been configured yet!")
+
+# Deployment Verbosity / Service Discovery
+summarize_services(vars())
 
 try:
     from .local import *
